@@ -17,7 +17,14 @@ class ResidentController extends Controller
      */
     public function index()
     {
-        $residents = Resident::all();
+        $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+        $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
+
+        $start_id = $range * $page;
+        $end_id = $start_id + $range + 1;
+
+        $residents = (is_null($page) || is_null($range)) ? Resident::all() : Resident::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
+
         return response([ 'residents' => ResidentResource::collection($residents), 'message' => 'Retrieved successfully'], 200);
     }
 

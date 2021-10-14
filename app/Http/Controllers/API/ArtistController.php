@@ -17,7 +17,14 @@ class ArtistController extends Controller
      */
     public function index()
     {
-        $artists = Artist::all();
+        $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+        $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
+
+        $start_id = $range * $page;
+        $end_id = $start_id + $range + 1;
+
+        $artists = (is_null($page) || is_null($range)) ? Artist::all() : Artist::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
+
         return response([ 'artists' => ArtistResource::collection($artists), 'message' => 'Retrieved successfully'], 200);
     }
 
