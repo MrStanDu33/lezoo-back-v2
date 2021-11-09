@@ -44,7 +44,7 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function next() {
-        return Event::where('end_date', '>', Carbon::now())->orderBy('end_date', 'asc')->limit(1)->get();
+        return Event::where('end_date', '>', Carbon::now())->orderBy('end_date', 'asc')->first();
     }
 
     /**
