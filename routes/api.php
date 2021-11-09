@@ -21,12 +21,18 @@ use App\Http\Controllers\API\EventController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('user')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::middleware('auth:api')->group(function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
+    });
 });
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
 
 Route::get('/albums/count', [AlbumController::class, 'count'])->middleware('auth:api');
 Route::apiResource('albums', AlbumController::class)->middleware('auth:api');
