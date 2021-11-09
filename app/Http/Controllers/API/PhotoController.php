@@ -13,7 +13,7 @@ class PhotoController extends Controller
     /**
      * Count resource number.
      *
-     * @return int
+     * @return \Illuminate\Http\Response
      */
     public function count() {
         return Photo::all()->count();

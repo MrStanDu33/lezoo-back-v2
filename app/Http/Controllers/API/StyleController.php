@@ -13,7 +13,7 @@ class StyleController extends Controller
     /**
      * Count resource number.
      *
-     * @return int
+     * @return \Illuminate\Http\Response
      */
     public function count() {
         return Style::all()->count();
