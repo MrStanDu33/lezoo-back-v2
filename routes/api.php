@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\AlbumController;
-use App\Http\Controllers\API\ArtistController;
 use App\Http\Controllers\API\PhotoController;
+use App\Http\Controllers\API\ArtistController;
 use App\Http\Controllers\API\ResidentController;
 use App\Http\Controllers\API\StyleController;
 use App\Http\Controllers\API\EventController;
@@ -22,33 +22,90 @@ use App\Http\Controllers\API\EventController;
 */
 
 Route::prefix('user')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 
     Route::middleware('auth:api')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::get('/user', function (Request $request) {
+        Route::post('/', [UserController::class, 'store']);
+        Route::put('/{user}', [UserController::class, 'update']);
+        Route::delete('/{user}', [UserController::class, 'destroy']);
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('/count', [UserController::class, 'count']);
+        Route::get('/{user}', [UserController::class, 'show']);
+        Route::post('logout', [UserController::class, 'logout']);
+        Route::get('/me', function (Request $request) {
             return $request->user();
         });
     });
 });
 
+Route::prefix('albums')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/', [AlbumController::class, 'store']);
+        Route::put('/{album}', [AlbumController::class, 'update']);
+        Route::delete('/{album}', [AlbumController::class, 'destroy']);
+    });
+    Route::get('/count', [AlbumController::class, 'count']);
+    Route::get('/', [AlbumController::class, 'index']);
+    Route::get('/{album}', [AlbumController::class, 'show']);
+});
 
-Route::get('/albums/count', [AlbumController::class, 'count']);
-Route::apiResource('albums', AlbumController::class);
 
-Route::get('/artists/count', [ArtistController::class, 'count']);
-Route::apiResource('artists', ArtistController::class);
+Route::prefix('artists')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/', [ArtistController::class, 'store']);
+        Route::put('/{artist}', [ArtistController::class, 'update']);
+        Route::delete('/{artist}', [ArtistController::class, 'destroy']);
+    });
+    Route::get('/count', [ArtistController::class, 'count']);
+    Route::get('/', [ArtistController::class, 'index']);
+    Route::get('/{artist}', [ArtistController::class, 'show']);
+});
 
-Route::get('/photos/count', [PhotoController::class, 'count']);
-Route::apiResource('photos', PhotoController::class);
 
-Route::get('/residents/count', [ResidentController::class, 'count']);
-Route::apiResource('residents', ResidentController::class);
+Route::prefix('photos')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/', [PhotoController::class, 'store']);
+        Route::put('/{photo}', [PhotoController::class, 'update']);
+        Route::delete('/{photo}', [PhotoController::class, 'destroy']);
+    });
+    Route::get('/count', [PhotoController::class, 'count']);
+    Route::get('/', [PhotoController::class, 'index']);
+    Route::get('/{photo}', [PhotoController::class, 'show']);
+});
 
-Route::get('/styles/count', [StyleController::class, 'count']);
-Route::apiResource('styles', StyleController::class);
 
-Route::get('/events/count', [EventController::class, 'count'])->middleware('auth:api');
-Route::get('/events/next', [EventController::class, 'next'])->middleware('auth:api');
-Route::apiResource('events', EventController::class)->middleware('auth:api');
+Route::prefix('residents')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/', [ResidentController::class, 'store']);
+        Route::put('/{resident}', [ResidentController::class, 'update']);
+        Route::delete('/{resident}', [ResidentController::class, 'destroy']);
+    });
+    Route::get('/count', [ResidentController::class, 'count']);
+    Route::get('/', [ResidentController::class, 'index']);
+    Route::get('/{resident}', [ResidentController::class, 'show']);
+});
+
+
+Route::prefix('styles')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/', [StyleController::class, 'store']);
+        Route::put('/{style}', [StyleController::class, 'update']);
+        Route::delete('/{style}', [StyleController::class, 'destroy']);
+    });
+    Route::get('/count', [StyleController::class, 'count']);
+    Route::get('/', [StyleController::class, 'index']);
+    Route::get('/{style}', [StyleController::class, 'show']);
+});
+
+
+Route::prefix('events')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/', [EventController::class, 'store']);
+        Route::put('/{event}', [EventController::class, 'update']);
+        Route::delete('/{event}', [EventController::class, 'destroy']);
+    });
+    Route::get('/count', [EventController::class, 'count']);
+    Route::get('/next', [EventController::class, 'next']);
+    Route::get('/', [EventController::class, 'index']);
+    Route::get('/{event}', [EventController::class, 'show']);
+});
