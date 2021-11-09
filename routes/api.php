@@ -38,6 +38,7 @@ Route::prefix('user')->group(function () {
     });
 });
 
+
 Route::prefix('albums')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/', [AlbumController::class, 'store']);
@@ -108,4 +109,17 @@ Route::prefix('events')->group(function () {
     Route::get('/next', [EventController::class, 'next']);
     Route::get('/', [EventController::class, 'index']);
     Route::get('/{event}', [EventController::class, 'show']);
+});
+
+
+Route::prefix('messages')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/', [MessageController::class, 'store']);
+        Route::put('/{message}', [MessageController::class, 'update']);
+        Route::delete('/{message}', [MessageController::class, 'destroy']);
+    });
+    Route::get('/count', [MessageController::class, 'count']);
+    Route::get('/', [MessageController::class, 'index']);
+    Route::get('/{message}', [MessageController::class, 'show']);
+    Route::get('/active', [MessageController::class, 'active']);
 });
