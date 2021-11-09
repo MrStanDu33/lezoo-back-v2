@@ -20,10 +20,6 @@ class CreatePhotosTable extends Migration
             $table->unsignedBigInteger('album_id');
             $table->timestamps();
         });
-
-        Schema::table('photos', function (Blueprint $table) {
-            $table->foreign('album_id')->references('id')->on('albums');
-        });
     }
 
     /**

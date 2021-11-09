@@ -17,8 +17,7 @@ class AddRelationsToPhotosTable extends Migration
             $table->unsignedBigInteger('artist_id')->nullable();
             $table->unsignedBigInteger('event_id')->nullable();
             $table->unsignedBigInteger('resident_id')->nullable();
-            $table->dropForeign('album_id');
-            $table->unsignedBigInteger('album_id')->nullable()->change();
+            $table->unsignedBigInteger('album_id')->nullable();
         });
     }
 
@@ -33,8 +32,7 @@ class AddRelationsToPhotosTable extends Migration
             $table->dropColumn('artist_id');
             $table->dropColumn('event_id');
             $table->dropColumn('resident_id');
-            $table->unsignedBigInteger('album_id')->change();
-            $table->foreign('album_id')->references('id')->on('albums');
+            $table->dropColumn('album_id');
         });
     }
 }
