@@ -44,4 +44,5 @@ Route::get('/styles/count', [StyleController::class, 'count'])->middleware('auth
 Route::apiResource('styles', StyleController::class)->middleware('auth:api');
 
 Route::get('/events/count', [EventController::class, 'count'])->middleware('auth:api');
+Route::get('/events/next', [EventController::class, 'next'])->middleware('auth:api');
 Route::apiResource('events', EventController::class)->middleware('auth:api');

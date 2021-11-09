@@ -7,13 +7,14 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\EventResource;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
     /**
      * Count resource number.
      *
-     * @return int
+     * @return \Illuminate\Http\Response
      */
     public function count() {
         return Event::all()->count();
@@ -35,6 +36,15 @@ class EventController extends Controller
         $styles = (is_null($page) || is_null($range)) ? Event::all() : Event::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
 
         return response([ 'events' => EventResource::collection($styles), 'message' => 'Retrieved successfully'], 200);
+    }
+
+    /**
+     * Return next event.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function next() {
+        return Event::where('end_date', '>', Carbon::now())->orderBy('end_date', 'asc')->limit(1)->get();
     }
 
     /**
