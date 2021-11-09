@@ -22,7 +22,7 @@ use App\Http\Controllers\API\EventController;
 */
 
 Route::prefix('user')->group(function () {
-    Route::post('login', [AuthController::class, 'login']);
+    Route::post('login', [UserController::class, 'login']);
 
     Route::middleware('auth:api')->group(function () {
         Route::post('/', [UserController::class, 'store']);
