@@ -5,10 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\AlbumController;
 use App\Http\Controllers\API\PhotoController;
-use App\Http\Controllers\API\ArtistController;
-use App\Http\Controllers\API\ResidentController;
 use App\Http\Controllers\API\StyleController;
 use App\Http\Controllers\API\EventController;
+use App\Http\Controllers\API\ArtistController;
+use App\Http\Controllers\API\MessageController;
+use App\Http\Controllers\API\ResidentController;
 
 /*
 |--------------------------------------------------------------------------
