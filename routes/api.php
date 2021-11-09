@@ -8,6 +8,7 @@ use App\Http\Controllers\API\ArtistController;
 use App\Http\Controllers\API\PhotoController;
 use App\Http\Controllers\API\ResidentController;
 use App\Http\Controllers\API\StyleController;
+use App\Http\Controllers\API\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,4 @@ Route::apiResource('artists', ArtistController::class)->middleware('auth:api');
 Route::apiResource('photos', PhotoController::class)->middleware('auth:api');
 Route::apiResource('residents', ResidentController::class)->middleware('auth:api');
 Route::apiResource('styles', StyleController::class)->middleware('auth:api');
+Route::apiResource('events', EventController::class)->middleware('auth:api');
