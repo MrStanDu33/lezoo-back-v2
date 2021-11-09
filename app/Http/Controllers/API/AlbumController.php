@@ -11,6 +11,15 @@ use App\Http\Resources\AlbumResource;
 class AlbumController extends Controller
 {
     /**
+     * Count resource number.
+     *
+     * @return int
+     */
+    public function count() {
+        return Album::all()->count();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

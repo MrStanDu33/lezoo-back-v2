@@ -11,6 +11,15 @@ use App\Http\Resources\StyleResource;
 class StyleController extends Controller
 {
     /**
+     * Count resource number.
+     *
+     * @return int
+     */
+    public function count() {
+        return Style::all()->count();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
