@@ -80,7 +80,17 @@ class StyleController extends Controller
      */
     public function update(Request $request, Style $style)
     {
-        $style->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'title' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $style->update($data);
 
         return response(['style' => new StyleResource($style), 'message' => 'Update successfully'], 200);
     }

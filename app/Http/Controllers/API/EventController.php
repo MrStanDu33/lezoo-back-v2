@@ -112,7 +112,18 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $event->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $event->update($data);
 
         return response(['event' => new EventResource($event), 'message' => 'Update successfully'], 200);
     }

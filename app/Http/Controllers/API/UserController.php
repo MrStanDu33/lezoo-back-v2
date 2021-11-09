@@ -54,9 +54,7 @@ class UserController extends Controller
 
         $user = User::create($validatedData);
 
-        $accessToken = $user->createToken('authToken')->accessToken;
-
-        return response(['user' => $user, 'access_token' => $accessToken], 201);
+        return response(['user' => $user], 201);
     }
 
     public function login(Request $request)
@@ -99,7 +97,19 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'name' => 'required|max:55',
+            'email' => 'email|required|unique:users',
+            'password' => 'required|confirmed'
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $user->update($data);
 
         return response(['user' => new UserResource($user), 'message' => 'Update successfully'], 200);
     }

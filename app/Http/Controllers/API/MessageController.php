@@ -100,7 +100,25 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message)
     {
-        $message->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:2048',
+            'active' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $activeMessageExist = Message::where('active', true)->count();
+
+        if ($data->active === true && $activeMessageExist !== 0) {
+            return response(['error' => 'A message is already at active state'], 409);
+        }
+
+        $message->update($data);
 
         return response(['message' => new MessageResource($message)], 200);
     }

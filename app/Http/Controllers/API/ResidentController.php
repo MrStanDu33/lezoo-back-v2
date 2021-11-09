@@ -83,7 +83,20 @@ class ResidentController extends Controller
      */
     public function update(Request $request, Resident $resident)
     {
-        $resident->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'photo' => 'nullable|url|max:255',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'link' => 'nullable|url|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $resident->update($data);
 
         return response(['resident' => new ResidentResource($resident), 'message' => 'Update successfully'], 200);
     }

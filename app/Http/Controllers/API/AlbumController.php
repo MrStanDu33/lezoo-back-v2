@@ -80,7 +80,17 @@ class AlbumController extends Controller
      */
     public function update(Request $request, Album $album)
     {
-        $album->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $album->update($data);
 
         return response(['album' => new AlbumResource($album), 'message' => 'Update successfully'], 200);
     }

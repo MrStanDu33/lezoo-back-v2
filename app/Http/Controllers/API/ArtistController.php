@@ -83,7 +83,20 @@ class ArtistController extends Controller
      */
     public function update(Request $request, Artist $artist)
     {
-        $artist->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'photo' => 'nullable|string|max:255',
+            'name' => 'required|string|max:255',
+            'social_link' => 'nullable|url|max:255',
+            'label' => 'nullable|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $artist->update($data);
 
         return response(['artist' => new ArtistResource($artist), 'message' => 'Update successfully'], 200);
     }
