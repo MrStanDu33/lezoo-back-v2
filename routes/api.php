@@ -24,7 +24,9 @@ use App\Http\Controllers\API\ResidentController;
 
 Route::prefix('user')->group(function () {
     Route::post('login', [UserController::class, 'login']);
-
+    if (env('AUTH_ALLOW_REGISTER') === true) {
+        Route::post('register', [UserController::class, 'store']);
+    }
     Route::middleware('auth:api')->group(function () {
         Route::post('/', [UserController::class, 'store']);
         Route::put('/{user}', [UserController::class, 'update']);
