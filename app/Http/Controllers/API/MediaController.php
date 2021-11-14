@@ -16,16 +16,15 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        dd(public_path());
         $data = $request->all();
 
-//        $validator = Validator::make($data, [
-//            'file' => 'required|string|max:255',
-//        ]);
+        $validator = Validator::make($data, [
+            'file' => 'required',
+        ]);
 
-//        if ($validator->fails()) {
-//            return response(['error' => $validator->errors(), 'Validation Error']);
-//        }
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
 
         $file = $request->file("file");
         $ext = $file->extension();
@@ -34,8 +33,8 @@ class MediaController extends Controller
         $date = date('Y-m-d_H-i-s');
         $completeFilename = "{$date}_{$filename}.{$ext}";
 
-        $fileURL = $file->storeAs('/uploadedFiles', $completeFilename, ['disk' => 'public']);
+        $file->storeAs('/uploadedFiles', $completeFilename, ['disk' => 'public']);
 
-        return response(['fileURL' => $fileURL, 'message' => 'Created successfully'], 201);
+        return response(['filename' => $completeFilename, 'message' => 'Created successfully'], 201);
     }
 }
