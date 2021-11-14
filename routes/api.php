@@ -7,6 +7,7 @@ use App\Http\Controllers\API\AlbumController;
 use App\Http\Controllers\API\PhotoController;
 use App\Http\Controllers\API\StyleController;
 use App\Http\Controllers\API\EventController;
+use App\Http\Controllers\API\MediaController;
 use App\Http\Controllers\API\ArtistController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\ResidentController;
@@ -125,4 +126,8 @@ Route::prefix('messages')->group(function () {
     Route::get('/', [MessageController::class, 'index']);
     Route::get('/{message}', [MessageController::class, 'show']);
     Route::get('/active', [MessageController::class, 'active']);
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/media/upload', [MediaController::class, 'store']);
 });

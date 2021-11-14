@@ -12,8 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
+
+Route::get('/media/{file}', [ function ($file) {
+    $path = storage_path('app/public/uploadedFiles/'.$file);
+    if (file_exists($path)) {
+        return Storage::response('public/uploadedFiles/'.$file);
+    }
+    abort(404);
+}]);
