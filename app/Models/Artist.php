@@ -17,7 +17,7 @@ class Artist extends Model
      * @var array
      */
     protected $fillable = [
-        'photo',
+        'photo_id',
         'name',
         'social_link',
         'label',

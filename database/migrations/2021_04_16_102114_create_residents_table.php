@@ -15,7 +15,7 @@ class CreateResidentsTable extends Migration
     {
         Schema::create('residents', function (Blueprint $table) {
             $table->id();
-            $table->string('photo', 255)->nullable();
+            $table->unsignedBigInteger('photo_id');
             $table->string('name', 255);
             $table->longText('description')->nullable();
             $table->string('link', 255)->nullable();

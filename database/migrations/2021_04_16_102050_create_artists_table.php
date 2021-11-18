@@ -15,7 +15,7 @@ class CreateArtistsTable extends Migration
     {
         Schema::create('artists', function (Blueprint $table) {
             $table->id();
-            $table->string('photo', 255)->nullable();
+            $table->unsignedBigInteger('photo_id');
             $table->string('name', 255);
             $table->string('social_link', 255)->nullable();
             $table->string('label', 255)->nullable();

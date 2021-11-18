@@ -48,7 +48,7 @@ class ResidentController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'photo' => 'nullable|url|max:255',
+            'photo_id' => 'nullable|exists:photos',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'link' => 'nullable|url|max:255',
@@ -86,7 +86,6 @@ class ResidentController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'photo' => 'nullable|url|max:255',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'link' => 'nullable|url|max:255',

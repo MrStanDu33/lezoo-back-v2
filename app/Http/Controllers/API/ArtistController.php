@@ -48,7 +48,7 @@ class ArtistController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'photo' => 'nullable|string|max:255',
+            'photo_id' => 'nullable|exists:photos',
             'name' => 'required|string|max:255',
             'social_link' => 'nullable|url|max:255',
             'label' => 'nullable|string|max:255',
@@ -86,7 +86,6 @@ class ArtistController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'photo' => 'nullable|string|max:255',
             'name' => 'required|string|max:255',
             'social_link' => 'nullable|url|max:255',
             'label' => 'nullable|string|max:255',
