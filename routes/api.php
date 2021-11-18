@@ -28,6 +28,10 @@ Route::prefix('user')->group(function () {
     if (env('AUTH_ALLOW_REGISTER') === true) {
         Route::post('register', [UserController::class, 'store']);
     }
+
+    Route::post('forgot', [UserController::class, 'forgotPassword']);
+    Route::post('reset', [UserController::class, 'resetPassword']);
+
     Route::middleware('auth:api')->group(function () {
         Route::post('/', [UserController::class, 'store']);
         Route::put('/{user}', [UserController::class, 'update']);

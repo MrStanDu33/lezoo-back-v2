@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -125,5 +126,88 @@ class UserController extends Controller
         $user->delete();
 
         return response(['message' => 'Deleted']);
+    }
+
+    /**
+     * Send a mail to reset password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function forgotPassword(Request $request)
+    {
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'email' => 'email|required',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $user = User::where('email', $data['email']);
+
+        if (!$user) {
+            return response(
+                ['message' => 'Given email is not linked to any users'],
+                404
+            );
+        }
+
+        $token = \Str::random(32);
+        try {
+            \DB::table('password_resets')->insert([
+                'email' => $data['email'],
+                'token' => $token
+            ]);
+
+            \Mail::send('emails.forgotPassword', ['token' => $token], function ($message) use ($data) {
+                $message->to($data['email']);
+                $message->subject('Reset your password !');
+            });
+
+            return response(['message' => 'email sent'], 201);
+        } catch (\Exception $exception) {
+            return response(
+                ['message' => $exception->getMessage()],
+                400
+            );
+        }
+    }
+
+    /**
+     * Reset user's password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function resetPassword(Request $request) {
+
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'token' => 'string|required|len:32',
+            'password' => 'required|confirmed'
+        ]);
+
+        if (!$passwordResets = \DB::table('password_resets')->where('token', $data['token'])->first()) {
+            return response(
+                ['message' => 'Invalid token'],
+                400
+            );
+        }
+
+        $user = User::where('email', $passwordResets->email)->first();
+        $user->password = Hash::make($data['password']);
+        $user->save();
+
+        \DB::table('password_resets')->where('token', $data['token'])->delete();
+
+        return response(
+            ['message' => 'Password updated successfully'],
+            200
+        );
     }
 }
