@@ -3,6 +3,9 @@ set -e
 
 echo "Deployment started ..."
 
+# Pull repository
+git pull origin master
+
 # Install composer dependencies
 composer install
 
