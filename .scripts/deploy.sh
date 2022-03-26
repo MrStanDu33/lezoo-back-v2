@@ -3,17 +3,11 @@ set -e
 
 echo "Deployment started ..."
 
-#Test if we are not mongole
-#ssh -vT git@github.com
-
-# Pull the latest version of the app
-#git pull origin main
-
 # Install composer dependencies
 composer install
 
 # Run database migrations
-php artisan migrate
+php artisan migrate --force
 
 # Run passport
 php artisan passport:install
