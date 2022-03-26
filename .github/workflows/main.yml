@@ -1,6 +1,7 @@
 name: Deploy API to Infomaniak server
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
 
