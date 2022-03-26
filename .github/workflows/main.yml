@@ -16,4 +16,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSHKEY }}
-          script: "cd /api/ && ./.scripts/deploy.sh"
+          script: "cd api/ && ./.scripts/deploy.sh"
