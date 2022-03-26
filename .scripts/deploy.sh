@@ -3,6 +3,9 @@ set -e
 
 echo "Deployment started ..."
 
+#Test if we are not mongole
+ssh -vT git@github.com
+
 # Pull the latest version of the app
 git pull origin main
 
