@@ -1,0 +1,21 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05af0fde5a
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d0598238947
+modified: 1652005068657
+created: 1652005068657
+url: "{{ base_url }}/api/residents/"
+name: Get all residents
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1652005068657
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

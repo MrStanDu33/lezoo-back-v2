@@ -1,0 +1,21 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0552af8d5e
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d054c45e72e
+modified: 1652005068711
+created: 1652005068711
+url: "{{ base_url }}/api/albums/{{ albumId }}"
+name: Get an album
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1652005068711
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

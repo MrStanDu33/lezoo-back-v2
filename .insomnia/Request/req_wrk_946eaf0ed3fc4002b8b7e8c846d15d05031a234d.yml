@@ -1,0 +1,24 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05031a234d
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d051528d87e
+modified: 1652005068699
+created: 1652005068699
+url: "{{ base_url }}/api/artists/{{ artistId }}"
+name: Delete an artist
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068699
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

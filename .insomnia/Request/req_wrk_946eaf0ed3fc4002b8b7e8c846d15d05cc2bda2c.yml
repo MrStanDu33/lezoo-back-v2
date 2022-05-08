@@ -1,0 +1,31 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05cc2bda2c
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d054c45e72e
+modified: 1652005068710
+created: 1652005068710
+url: "{{ base_url }}/api/albums/{{ albumId }}"
+name: Update an album
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "name": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068710
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,10 @@
+_id: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05f1702b46
+type: RequestGroup
+parentId: wrk_946eaf0ed3fc4002b8b7e8c846d15d05
+modified: 1652005068837
+created: 1652005068837
+name: Messages
+description: Messages routes
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1652005068838

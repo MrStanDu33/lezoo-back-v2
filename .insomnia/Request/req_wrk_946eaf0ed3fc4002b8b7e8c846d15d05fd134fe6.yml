@@ -1,0 +1,21 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05fd134fe6
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d0557f2b181
+modified: 1652005068622
+created: 1652005068622
+url: "{{ base_url }}/api/users/forgot"
+name: Generate token to reset password
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1652005068622
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

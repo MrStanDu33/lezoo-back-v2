@@ -1,0 +1,32 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0561a6137f
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05c8b2e864
+modified: 1652005068664
+created: 1652005068664
+url: "{{ base_url }}/api/photos/{{ photoId }}"
+name: Update a photo
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "url": "string",
+      "alt": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068664
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

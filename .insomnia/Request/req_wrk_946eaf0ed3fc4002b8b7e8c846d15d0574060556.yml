@@ -1,0 +1,34 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0574060556
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d0598238947
+modified: 1652005068659
+created: 1652005068659
+url: "{{ base_url }}/api/residents/"
+name: Create an resident
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "photo_id": 0,
+      "name": "string",
+      "description": "string",
+      "link": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068659
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

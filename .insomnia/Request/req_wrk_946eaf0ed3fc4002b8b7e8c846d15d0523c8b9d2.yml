@@ -1,0 +1,24 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0523c8b9d2
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d0557f2b181
+modified: 1652005068618
+created: 1652005068618
+url: "{{ base_url }}/api/users/logout"
+name: Log user out
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068618
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

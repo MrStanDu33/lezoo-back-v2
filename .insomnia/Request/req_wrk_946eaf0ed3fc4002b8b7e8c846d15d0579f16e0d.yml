@@ -1,0 +1,21 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0579f16e0d
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d051528d87e
+modified: 1652005068704
+created: 1652005068704
+url: "{{ base_url }}/api/artists/"
+name: Get all artists
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1652005068704
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

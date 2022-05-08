@@ -1,0 +1,32 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d051a6e4999
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d054c45e72e
+modified: 1652005069366
+created: 1652005068726
+url: "{{ base_url }}/api/albums/"
+name: Create an album
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "name": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_f7d3bdae56a74026a496660cafdfe6d1
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068726
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

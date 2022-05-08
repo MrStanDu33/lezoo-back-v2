@@ -1,0 +1,33 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05296371b0
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05f1702b46
+modified: 1652005068681
+created: 1652005068681
+url: "{{ base_url }}/api/messages/"
+name: Create a message
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "name": "string",
+      "description": "string",
+      "active": true
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068681
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

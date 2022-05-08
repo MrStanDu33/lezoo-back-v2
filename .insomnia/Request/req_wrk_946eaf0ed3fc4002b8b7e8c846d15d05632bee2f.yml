@@ -1,0 +1,24 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05632bee2f
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05c5497bca
+modified: 1652005068687
+created: 1652005068687
+url: "{{ base_url }}/api/events/{{ eventId }}"
+name: Delete an event
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068687
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

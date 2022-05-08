@@ -1,0 +1,32 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05052ef058
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05c8b2e864
+modified: 1652005068668
+created: 1652005068668
+url: "{{ base_url }}/api/photos/"
+name: Create a photo
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "url": "string",
+      "alt": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068668
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

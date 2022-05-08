@@ -1,0 +1,31 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d051482f2b8
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d0557f2b181
+modified: 1652028581516
+created: 1652005068626
+url: "{{ base_url }}/api/users/register"
+name: Register user and log in
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "name": "string",
+      "email": "userw@example.com",
+      "password": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_75d61820204e4a2292eaf39b4cfb660e
+authentication: {}
+metaSortKey: -1652005068626
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

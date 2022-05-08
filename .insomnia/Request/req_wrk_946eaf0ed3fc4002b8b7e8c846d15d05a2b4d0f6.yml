@@ -1,0 +1,21 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05a2b4d0f6
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05c5497bca
+modified: 1652005068685
+created: 1652005068685
+url: "{{ base_url }}/api/events/count"
+name: Count events
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1652005068685
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

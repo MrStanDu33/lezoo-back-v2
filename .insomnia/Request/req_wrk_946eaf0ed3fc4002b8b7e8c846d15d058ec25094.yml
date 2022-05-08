@@ -1,0 +1,21 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d058ec25094
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05c8b2e864
+modified: 1652005068660
+created: 1652005068660
+url: "{{ base_url }}/api/photos/count"
+name: Count photos
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1652005068660
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

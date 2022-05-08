@@ -1,0 +1,21 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0540dda1b9
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05f1702b46
+modified: 1652005068671
+created: 1652005068671
+url: "{{ base_url }}/api/messages/count"
+name: Count messages
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1652005068671
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

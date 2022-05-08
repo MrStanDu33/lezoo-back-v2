@@ -1,0 +1,4416 @@
+_id: spc_92db11b6f30f4bb1a95c4432033fe1f4
+type: ApiSpec
+parentId: wrk_946eaf0ed3fc4002b8b7e8c846d15d05
+modified: 1652029314480
+created: 1651045396147
+fileName: le-zoo-doc
+contents: >
+  {
+      "openapi": "3.0.3",
+      "info": {
+          "title": "Le ZOO - API",
+          "description": "API used to manage Le ZOO website",
+          "version": "1.0.0"
+      },
+      "servers": [
+          {
+              "url": "http://127.0.0.1:8000",
+              "description": "development"
+          }
+      ],
+      "tags": [
+          {
+              "name": "Albums",
+              "description": "Albums routes"
+          },
+          {
+              "name": "Artists",
+              "description": "Artists routes"
+          },
+          {
+              "name": "Events",
+              "description": "Events routes"
+          },
+          {
+              "name": "Medias",
+              "description": "Medias routes"
+          },
+          {
+              "name": "Messages",
+              "description": "Messages routes"
+          },
+          {
+              "name": "Photos",
+              "description": "Photos routes"
+          },
+          {
+              "name": "Residents",
+              "description": "Residents routes"
+          },
+          {
+              "name": "Styles",
+              "description": "Styles routes"
+          },
+          {
+              "name": "Users",
+              "description": "Users routes"
+          }
+      ],
+      "paths": {
+          "/api/albums/": {
+              "post": {
+                  "summary": "Create an album",
+                  "tags": ["Albums"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/AlbumCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Album created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "album": {
+                                              "$ref": "#/components/schemas/AlbumStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Field name must be a string."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "get": {
+                  "summary": "Get all albums",
+                  "tags": ["Albums"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Albums retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "albums": {
+                                              "type": "array",
+                                              "items": {
+                                                  "$ref": "#/components/schemas/AlbumStructureFull"
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/albums/{albumId}": {
+              "parameters": [
+                  {
+                      "name": "albumId",
+                      "in": "path",
+                      "schema": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "description": "Album's id",
+                      "required": true
+                  }
+              ],
+              "get": {
+                  "summary": "Get an album",
+                  "tags": ["Albums"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Album retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "album": {
+                                              "$ref": "#/components/schemas/AlbumStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Album not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Album not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "put": {
+                  "summary": "Update an album",
+                  "tags": ["Albums"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/AlbumCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK | Album updated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "album": {
+                                              "$ref": "#/components/schemas/AlbumStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Field name must be a string."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Album not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Album not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "delete": {
+                  "summary": "Delete an album",
+                  "tags": ["Albums"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Album deleted",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "album": {
+                                              "$ref": "#/components/schemas/AlbumStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Album not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Album not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/albums/count": {
+              "get": {
+                  "summary": "Count albums",
+                  "tags": ["Albums"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Albums count fetched",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "count": {
+                                              "type": "integer",
+                                              "format": "int64"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/artists/": {
+              "post": {
+                  "summary": "Create an artist",
+                  "tags": ["Artists"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/ArtistCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Artist created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "artist": {
+                                              "$ref": "#/components/schemas/ArtistStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field photo_id must be a number."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field social_link must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field label must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Entity not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Artist not found."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No photo match this id."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "get": {
+                  "summary": "Get all artists",
+                  "tags": ["Artists"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Artists retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "artists": {
+                                              "type": "array",
+                                              "items": {
+                                                  "$ref": "#/components/schemas/ArtistStructureFull"
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/artists/{artistId}": {
+              "parameters": [
+                  {
+                      "name": "artistId",
+                      "in": "path",
+                      "schema": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "description": "Artist's id",
+                      "required": true
+                  }
+              ],
+              "get": {
+                  "summary": "Get an artist",
+                  "tags": ["Artists"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Artist retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "artist": {
+                                              "$ref": "#/components/schemas/ArtistStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Artist not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Artist not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "put": {
+                  "summary": "Update an artist",
+                  "tags": ["Artists"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/ArtistCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK | Artist updated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "artist": {
+                                              "$ref": "#/components/schemas/ArtistStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field photo_id must be a number."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field social_link must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field label must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Entity not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Artist not found."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No photo match this id."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "delete": {
+                  "summary": "Delete an artist",
+                  "tags": ["Artists"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Artist deleted",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "artist": {
+                                              "$ref": "#/components/schemas/ArtistStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Artist not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Artist not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/artists/count": {
+              "get": {
+                  "summary": "Count artists",
+                  "tags": ["Artists"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Artists count fetched",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "count": {
+                                              "type": "integer",
+                                              "format": "int64"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/events/": {
+              "post": {
+                  "summary": "Create an event",
+                  "tags": ["Events"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/EventCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Event created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "event": {
+                                              "$ref": "#/components/schemas/EventStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field start_date must be a datetime formatted string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field end_date must be a datetime formatted string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field title must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field description must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "get": {
+                  "summary": "Get all events",
+                  "tags": ["Events"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Events retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "events": {
+                                              "type": "array",
+                                              "items": {
+                                                  "$ref": "#/components/schemas/EventStructureFull"
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/events/{eventId}": {
+              "parameters": [
+                  {
+                      "name": "eventId",
+                      "in": "path",
+                      "schema": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "description": "Event's id",
+                      "required": true
+                  }
+              ],
+              "get": {
+                  "summary": "Get an event",
+                  "tags": ["Events"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Event retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "event": {
+                                              "$ref": "#/components/schemas/EventStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Event not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Event not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "put": {
+                  "summary": "Update an event",
+                  "tags": ["Events"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/EventCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK | Event updated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "event": {
+                                              "$ref": "#/components/schemas/EventStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field start_date must be a datetime formatted string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field end_date must be a datetime formatted string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field title must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field description must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Event not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Event not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "delete": {
+                  "summary": "Delete an event",
+                  "tags": ["Events"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Event deleted",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "event": {
+                                              "$ref": "#/components/schemas/EventStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Event not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Event not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/events/count": {
+              "get": {
+                  "summary": "Count events",
+                  "tags": ["Events"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Events count fetched",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "count": {
+                                              "type": "integer",
+                                              "format": "int64"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/medias/upload": {
+              "post": {
+                  "summary": "Upload a media",
+                  "tags": ["Medias"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "multipart/form-data": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/MediaCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Media created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "media": {
+                                              "$ref": "#/components/schemas/MediaStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Field image must be a media."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/messages/": {
+              "post": {
+                  "summary": "Create a message",
+                  "tags": ["Messages"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/MessageCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Message created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "$ref": "#/components/schemas/MessageStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field description must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field active must be a boolean."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "get": {
+                  "summary": "Get all messages",
+                  "tags": ["Messages"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Messages retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "messages": {
+                                              "type": "array",
+                                              "items": {
+                                                  "$ref": "#/components/schemas/MessageStructureFull"
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/messages/{messageId}": {
+              "parameters": [
+                  {
+                      "name": "messageId",
+                      "in": "path",
+                      "schema": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "description": "Message's id",
+                      "required": true
+                  }
+              ],
+              "get": {
+                  "summary": "Get a message",
+                  "tags": ["Messages"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Message retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "$ref": "#/components/schemas/MessageStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Message not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Message not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "put": {
+                  "summary": "Update a message",
+                  "tags": ["Messages"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/MessageCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK | Message updated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "$ref": "#/components/schemas/MessageStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field description must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field active must be a boolean."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Message not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Message not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "delete": {
+                  "summary": "Delete an event",
+                  "tags": ["Messages"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Event deleted",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "event": {
+                                              "$ref": "#/components/schemas/EventStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Message not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Message not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/messages/count": {
+              "get": {
+                  "summary": "Count messages",
+                  "tags": ["Messages"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Messages count fetched",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "count": {
+                                              "type": "integer",
+                                              "format": "int64"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/photos/": {
+              "post": {
+                  "summary": "Create a photo",
+                  "tags": ["Photos"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PhotoCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Photo created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "photo": {
+                                              "$ref": "#/components/schemas/PhotoStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field url must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field alt must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Please provide an album_id, an artist_id, an event_id or a resident_id."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Entity not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No album match this id."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No artist match this id."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No event match this id."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No resident match this id."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "get": {
+                  "summary": "Get all photos",
+                  "tags": ["Photos"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Photos retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "photos": {
+                                              "type": "array",
+                                              "items": {
+                                                  "$ref": "#/components/schemas/PhotoStructureFull"
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/photos/{photoId}": {
+              "parameters": [
+                  {
+                      "name": "photoId",
+                      "in": "path",
+                      "schema": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "description": "Photo's id",
+                      "required": true
+                  }
+              ],
+              "get": {
+                  "summary": "Get a photo",
+                  "tags": ["Photos"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Photo retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "photo": {
+                                              "$ref": "#/components/schemas/PhotoStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Photo not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Photo not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "put": {
+                  "summary": "Update a photo",
+                  "tags": ["Photos"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PhotoCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK | Photo updated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "photo": {
+                                              "$ref": "#/components/schemas/PhotoStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field url must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field alt must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Please provide an album_id, an artist_id, an event_id or a resident_id."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Entity not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Photo not found."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No album match this id."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No artist match this id."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No event match this id."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No resident match this id."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "delete": {
+                  "summary": "Delete a photo",
+                  "tags": ["Photos"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Photo deleted",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "photo": {
+                                              "$ref": "#/components/schemas/PhotoStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Photo not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Photo not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/photos/count": {
+              "get": {
+                  "summary": "Count photos",
+                  "tags": ["Photos"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Photos count fetched",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "count": {
+                                              "type": "integer",
+                                              "format": "int64"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/residents/": {
+              "post": {
+                  "summary": "Create an resident",
+                  "tags": ["Residents"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/ResidentCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Resident created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "resident": {
+                                              "$ref": "#/components/schemas/ResidentStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field photo_id must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field description must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field link must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Photo not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "No photo match this id."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "get": {
+                  "summary": "Get all residents",
+                  "tags": ["Residents"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Residents retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "residents": {
+                                              "type": "array",
+                                              "items": {
+                                                  "$ref": "#/components/schemas/ResidentStructureFull"
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/residents/{residentId}": {
+              "parameters": [
+                  {
+                      "name": "residentId",
+                      "in": "path",
+                      "schema": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "description": "Resident's id",
+                      "required": true
+                  }
+              ],
+              "get": {
+                  "summary": "Get an resident",
+                  "tags": ["Residents"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Resident retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "resident": {
+                                              "$ref": "#/components/schemas/ResidentStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Resident not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Resident not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "put": {
+                  "summary": "Update an resident",
+                  "tags": ["Residents"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/ResidentCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK | Resident updated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "resident": {
+                                              "$ref": "#/components/schemas/ResidentStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field photo_id must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field description must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field link must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Entity not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Resident not found."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "No photo match this id."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "delete": {
+                  "summary": "Delete an resident",
+                  "tags": ["Residents"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Resident deleted",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "resident": {
+                                              "$ref": "#/components/schemas/ResidentStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Resident not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Resident not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/residents/count": {
+              "get": {
+                  "summary": "Count residents",
+                  "tags": ["Residents"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Residents count fetched",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "count": {
+                                              "type": "integer",
+                                              "format": "int64"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/styles/": {
+              "post": {
+                  "summary": "Create a style",
+                  "tags": ["Styles"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/StyleCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Style created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "style": {
+                                              "$ref": "#/components/schemas/StyleStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Field title must be a string."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "get": {
+                  "summary": "Get all styles",
+                  "tags": ["Styles"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Styles retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "styles": {
+                                              "type": "array",
+                                              "items": {
+                                                  "$ref": "#/components/schemas/StyleStructureFull"
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/styles/{styleId}": {
+              "parameters": [
+                  {
+                      "name": "styleId",
+                      "in": "path",
+                      "schema": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "description": "Style's id",
+                      "required": true
+                  }
+              ],
+              "get": {
+                  "summary": "Get a style",
+                  "tags": ["Styles"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Style retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "style": {
+                                              "$ref": "#/components/schemas/StyleStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Style not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Style not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "put": {
+                  "summary": "Update a style",
+                  "tags": ["Styles"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/StyleCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK | Style updated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "style": {
+                                              "$ref": "#/components/schemas/StyleStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Field title must be a string."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Style not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Style not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "delete": {
+                  "summary": "Delete a style",
+                  "tags": ["Styles"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Style deleted",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "style": {
+                                              "$ref": "#/components/schemas/StyleStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Style not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Style not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/styles/count": {
+              "get": {
+                  "summary": "Count styles",
+                  "tags": ["Styles"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Styles count fetched",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "count": {
+                                              "type": "integer",
+                                              "format": "int64"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/users/": {
+              "post": {
+                  "summary": "Create a user",
+                  "tags": ["Users"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/UserCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | User created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field email must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field password must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "get": {
+                  "summary": "Get all users",
+                  "tags": ["Users"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Users retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "users": {
+                                              "type": "array",
+                                              "items": {
+                                                  "$ref": "#/components/schemas/UserStructureFull"
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/users/{userId}": {
+              "parameters": [
+                  {
+                      "name": "userId",
+                      "in": "path",
+                      "schema": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "description": "User's id",
+                      "required": true
+                  }
+              ],
+              "get": {
+                  "summary": "Get a user",
+                  "tags": ["Users"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | User retrieved",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | User not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "User not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "put": {
+                  "summary": "Update a user",
+                  "tags": ["Users"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/UserCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK | User updated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field email must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field password must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | User not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "User not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "409": {
+                          "description": "Conflict | Email already used",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Email address already used."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              },
+              "delete": {
+                  "summary": "Delete a user",
+                  "tags": ["Users"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | User deleted",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | User not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "User not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/users/count": {
+              "get": {
+                  "summary": "Count users",
+                  "tags": ["Users"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Users count fetched",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "count": {
+                                              "type": "integer",
+                                              "format": "int64"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+
+          "/api/users/register": {
+              "post": {
+                  "summary": "Register user and log in",
+                  "description": "this route can be disabled with \"**AUTH_ALLOW_REGISTER**\" env variable",
+                  "tags": ["Users"],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/UserCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | User created and user logged in",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "token": {
+                                              "type": "string"
+                                          },
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field name must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field email must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field password must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "409": {
+                          "description": "Conflict | Email already used",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Email address already used."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/users/login": {
+              "post": {
+                  "summary": "Log user in",
+                  "tags": ["Users"],
+                  "requestBody": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/UserLogin"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created | Token created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "token": {
+                                              "type": "string"
+                                          },
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "oneOf": [
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field email must be a string."
+                                                  }
+                                              }
+                                          },
+                                          {
+                                              "type": "object",
+                                              "properties": {
+                                                  "error": {
+                                                      "type": "string",
+                                                      "example": "Field password must be a string."
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | User not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "No user match this email."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/users/forgot": {
+              "post": {
+                  "summary": "Generate token to reset password",
+                  "tags": ["Users"],
+                  "responses": {
+                      "201": {
+                          "description": "Created | Reset token generated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "token": {
+                                              "type": "string"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Field email must be a string."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | User not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "No user match this email."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/users/reset": {
+              "post": {
+                  "summary": "Reset forgotten password",
+                  "tags": ["Users"],
+                  "responses": {
+                      "200": {
+                          "description": "OK | Password reset",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Password reset."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request | Validation error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Field password must be a string."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | Reset token not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Reset token not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/users/logout": {
+              "post": {
+                  "summary": "Log user out",
+                  "tags": ["Users"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | User logged out",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "User logged out."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          },
+          "/api/users/me": {
+              "get": {
+                  "summary": "Get my user",
+                  "tags": ["Users"],
+                  "security": [
+                      {
+                          "bearerAuth": []
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "OK | User found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructureFull"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found | User not found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "User not found."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "500": {
+                          "$ref": "#/components/responses/500"
+                      }
+                  }
+              }
+          }
+      },
+      "components": {
+          "schemas": {
+              "AlbumCreation": {
+                  "type": "object",
+                  "properties": {
+                      "name": {
+                          "type": "string"
+                      }
+                  }
+              },
+              "ArtistCreation": {
+                  "type": "object",
+                  "properties": {
+                      "photo_id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "social_link": {
+                          "type": "string",
+                          "format": "url"
+                      },
+                      "label": {
+                          "type": "string"
+                      }
+                  }
+              },
+              "EventCreation": {
+                  "type": "object",
+                  "properties": {
+                      "start_date": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "end_date": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "title": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      }
+                  }
+              },
+              "MediaCreation": {
+                  "type": "object",
+                  "properties": {
+                      "url": {
+                          "type": "string",
+                          "format": "url"
+                      }
+                  }
+              },
+              "MessageCreation": {
+                  "type": "object",
+                  "properties": {
+                      "name": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      },
+                      "active": {
+                          "type": "boolean"
+                      }
+                  }
+              },
+              "PhotoCreation": {
+                  "type": "object",
+                  "properties": {
+                      "url": {
+                          "type": "string",
+                          "format": "url"
+                      },
+                      "alt": {
+                          "type": "string"
+                      }
+                  }
+              },
+              "ResidentCreation": {
+                  "type": "object",
+                  "properties": {
+                      "photo_id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      },
+                      "link": {
+                          "type": "string",
+                          "format": "url"
+                      }
+                  }
+              },
+              "StyleCreation": {
+                  "type": "object",
+                  "properties": {
+                      "title": {
+                          "type": "string"
+                      }
+                  }
+              },
+              "UserLogin": {
+                  "type": "object",
+                  "properties": {
+                      "email": {
+                          "type": "string",
+                          "format": "email"
+                      },
+                      "password": {
+                          "type": "string",
+                          "format": "password"
+                      }
+                  }
+              },
+              "UserCreation": {
+                  "type": "object",
+                  "properties": {
+                      "name": {
+                          "type": "string"
+                      },
+                      "email": {
+                          "type": "string",
+                          "format": "email"
+                      },
+                      "password": {
+                          "type": "string",
+                          "format": "password"
+                      }
+                  }
+              },
+              "AlbumStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "ArtistStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "photo_id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "social_link": {
+                          "type": "string",
+                          "format": "url"
+                      },
+                      "label": {
+                          "type": "string"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "EventStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "start_date": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "end_date": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "title": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "MediaStructure": {
+                  "type": "object",
+                  "properties": {
+                      "file": {
+                          "type": "string",
+                          "format": "binary"
+                      }
+                  }
+              },
+              "MessageStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      },
+                      "active": {
+                          "type": "boolean"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "PhotoStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "url": {
+                          "type": "string",
+                          "format": "url"
+                      },
+                      "alt": {
+                          "type": "string"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "ResidentStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "photo_id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      },
+                      "link": {
+                          "type": "string",
+                          "format": "url"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "StyleStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "title": {
+                          "type": "string"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "UserStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "email": {
+                          "type": "string",
+                          "format": "email"
+                      },
+                      "password": {
+                          "type": "string",
+                          "format": "password"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "AlbumStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "photos": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/PhotoStructure"
+                          }
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "ArtistStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "photo_id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "photo": {
+                          "$ref": "#/components/schemas/PhotoStructure"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "social_link": {
+                          "type": "string",
+                          "format": "url"
+                      },
+                      "label": {
+                          "type": "string"
+                      },
+                      "events": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/EventStructure"
+                          }
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "EventStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "start_date": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "end_date": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "title": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      },
+                      "artists": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/ArtistStructure"
+                          }
+                      },
+                      "styles": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/StyleStructure"
+                          }
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "MediaStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "url": {
+                          "type": "string",
+                          "format": "url"
+                      }
+                  }
+              },
+              "MessageStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      },
+                      "active": {
+                          "type": "boolean"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "PhotoStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "url": {
+                          "type": "string",
+                          "format": "url"
+                      },
+                      "alt": {
+                          "type": "string"
+                      },
+                      "albums": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/AlbumStructure"
+                          }
+                      },
+                      "artists": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/ArtistStructure"
+                          }
+                      },
+                      "events": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/EventStructure"
+                          }
+                      },
+                      "residents": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/ResidentStructure"
+                          }
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "ResidentStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "photo_id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "photo": {
+                          "$ref": "#/components/schemas/PhotoStructure"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "description": {
+                          "type": "string"
+                      },
+                      "link": {
+                          "type": "string",
+                          "format": "url"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "StyleStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "title": {
+                          "type": "string"
+                      },
+                      "events": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/components/schemas/EventStructure"
+                          }
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              },
+              "UserStructureFull": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "name": {
+                          "type": "string"
+                      },
+                      "email": {
+                          "type": "string",
+                          "format": "email"
+                      },
+                      "password": {
+                          "type": "string",
+                          "format": "password"
+                      },
+                      "created_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      },
+                      "updated_at": {
+                          "type": "string",
+                          "format": "datetime"
+                      }
+                  }
+              }
+          },
+          "responses": {
+              "500": {
+                  "description": "Internal Server Error | Uncaught exception",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "error": {
+                                      "type": "string",
+                                      "example": "An error has occured"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "securitySchemes": {
+              "bearerAuth": {
+                  "type": "http",
+                  "scheme": "bearer",
+                  "bearerFormat": "JWT"
+              }
+          }
+      }
+  }
+contentType: yaml

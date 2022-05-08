@@ -1,0 +1,25 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05e1087120
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05f93771be
+modified: 1652005068683
+created: 1652005068683
+url: "{{ base_url }}/api/medias/upload"
+name: Upload a media
+description: ""
+method: POST
+body:
+  mimeType: multipart/form-data
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068683
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

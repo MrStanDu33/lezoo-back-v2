@@ -1,0 +1,24 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0543f4e128
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d054c45e72e
+modified: 1652005068708
+created: 1652005068708
+url: "{{ base_url }}/api/albums/{{ albumId }}"
+name: Delete an album
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068708
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

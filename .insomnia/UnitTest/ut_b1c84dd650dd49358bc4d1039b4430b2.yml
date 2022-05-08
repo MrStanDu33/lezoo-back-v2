@@ -1,0 +1,27 @@
+_id: ut_b1c84dd650dd49358bc4d1039b4430b2
+type: UnitTest
+parentId: uts_dfb7a5aff8f941b8ae246618cfb54978
+modified: 1652028747758
+created: 1651999138544
+requestId: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d051482f2b8
+name: Returns 200
+code: |-
+  const body = {
+    name: 'string',
+    email: 'uswwerw@example.com',
+    password: 'strwwing',
+  };
+
+  const response1 = await insomnia.send(null, {
+      method: 'POST',
+      headers: [{
+          'content-type': 'application/json',
+      }],
+      body: {
+          mimetype: 'application/json',
+          text: JSON.stringify(body),
+      },
+  });
+
+  console.log(response1);
+  expect(response1.status).to.equal(200);

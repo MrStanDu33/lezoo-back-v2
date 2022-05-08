@@ -1,0 +1,33 @@
+_id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05333263fd
+type: Request
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05f1702b46
+modified: 1652005068674
+created: 1652005068674
+url: "{{ base_url }}/api/messages/{{ messageId }}"
+name: Update a message
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "name": "string",
+      "description": "string",
+      "active": true
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
+metaSortKey: -1652005068674
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

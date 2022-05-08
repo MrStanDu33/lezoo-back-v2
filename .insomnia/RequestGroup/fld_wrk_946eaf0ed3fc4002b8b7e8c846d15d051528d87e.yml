@@ -1,0 +1,10 @@
+_id: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d051528d87e
+type: RequestGroup
+parentId: wrk_946eaf0ed3fc4002b8b7e8c846d15d05
+modified: 1652005068855
+created: 1652005068855
+name: Artists
+description: Artists routes
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1652005068855
