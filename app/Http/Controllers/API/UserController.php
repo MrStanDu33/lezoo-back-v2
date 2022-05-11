@@ -25,7 +25,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function find_all()
     {
         $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
         $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
@@ -44,19 +44,48 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|max:55',
             'email' => 'email|required|unique:users',
-            'password' => 'required|confirmed'
+            'password' => 'required'
         ]);
-
         $validatedData['password'] = Hash::make($request->password);
 
         $user = User::create($validatedData);
 
         return response(['user' => $user], 201);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $validated_data = $request->validate([
+            'name' => 'required|max:55',
+            'email' => 'email|required|unique:users',
+            'password' => 'required'
+        ]);
+        $validated_data['password'] = Hash::make($request->password);
+
+        $user = User::create($validated_data);
+
+        auth()->attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        $access_token = auth()->user()->createToken('authToken')->accessToken;
+
+        return response([
+            'token' => $access_token,
+            'user' => $user,
+        ], 201);
     }
 
     public function login(Request $request)
@@ -85,7 +114,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function find_one(User $user)
     {
         return response(['user' => new UserResource($user), 'message' => 'Retrieved successfully'], 200);
     }
@@ -122,7 +151,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function delete(User $user)
     {
         $user->delete();
 
@@ -135,7 +164,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function forgotPassword(Request $request)
+    public function forgot_password(Request $request)
     {
         $data = $request->all();
 
@@ -184,7 +213,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function resetPassword(Request $request) {
+    public function reset_password(Request $request) {
 
         $data = $request->all();
 
