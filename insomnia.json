@@ -2939,6 +2939,22 @@
                             }
                         }
                     },
+                    "409": {
+                        "description": "Conflict | Email already used",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Email address already used."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "$ref": "#/components/responses/500"
                     }
