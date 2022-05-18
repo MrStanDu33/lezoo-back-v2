@@ -71,6 +71,7 @@ class UserController extends Controller
             'email' => 'email|required|unique:users',
             'password' => 'required'
         ]);
+
         $validated_data['password'] = Hash::make($request->password);
 
         $user = User::create($validated_data);
@@ -101,7 +102,7 @@ class UserController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return response(['user' => auth()->user(), 'token' => $accessToken], 201);
     }
 
     public function logout(Request $request) {
