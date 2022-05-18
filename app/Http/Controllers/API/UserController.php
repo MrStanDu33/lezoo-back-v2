@@ -25,7 +25,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function find_all()
     {
         $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
         $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
@@ -44,14 +44,13 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|max:55',
             'email' => 'email|required|unique:users',
-            'password' => 'required|confirmed'
+            'password' => 'required'
         ]);
-
         $validatedData['password'] = Hash::make($request->password);
 
         $user = User::create($validatedData);
@@ -59,20 +58,65 @@ class UserController extends Controller
         return response(['user' => $user], 201);
     }
 
-    public function login(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
     {
-        $loginData = $request->validate([
-            'email' => 'email|required',
+        $validated_data = $request->validate([
+            'name' => 'required|max:55',
+            'email' => 'email|required|unique:users',
             'password' => 'required'
         ]);
 
-        if (!auth()->attempt($loginData)) {
-            return response(['message' => 'This User does not exist, check your details'], 400);
+        $validated_data['password'] = Hash::make($request->password);
+
+        $user = User::create($validated_data);
+
+        auth()->attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        $access_token = auth()->user()->createToken('authToken')->accessToken;
+
+        return response([
+            'token' => $access_token,
+            'user' => $user,
+        ], 201);
+    }
+
+    public function login(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'email' => 'email|required',
+                'password' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $user_exists = User::where('email', $request->get('email'))->get()->count();
+
+            if ($user_exists !== 1) {
+                return response(['message' => 'No user match this email'], 404);
+            }
+
+            if (!auth()->attempt($request->all())) {
+                return response(['message' => 'Email or password incorrect'], 401);
+            }
+
+            $token = auth()->user()->createToken('authToken')->accessToken;
+
+            return response(['user' => auth()->user(), 'token' => $token], 201);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
-
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
     }
 
     public function logout(Request $request) {
@@ -85,7 +129,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function find_one(User $user)
     {
         return response(['user' => new UserResource($user), 'message' => 'Retrieved successfully'], 200);
     }
@@ -122,7 +166,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function delete(User $user)
     {
         $user->delete();
 
@@ -135,7 +179,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function forgotPassword(Request $request)
+    public function forgot_password(Request $request)
     {
         $data = $request->all();
 
@@ -184,7 +228,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function resetPassword(Request $request) {
+    public function reset_password(Request $request) {
 
         $data = $request->all();
 
