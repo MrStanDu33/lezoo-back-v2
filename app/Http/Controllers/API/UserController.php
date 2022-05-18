@@ -91,28 +91,32 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'email|required',
-            'password' => 'required'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'email' => 'email|required',
+                'password' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return response(['errors' => $validator->messages()->get('*')], 400);
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $user_exists = User::where('email', $request->get('email'))->get()->count();
+
+            if ($user_exists !== 1) {
+                return response(['message' => 'No user match this email'], 404);
+            }
+
+            if (!auth()->attempt($request->all())) {
+                return response(['message' => 'Email or password incorrect'], 401);
+            }
+
+            $token = auth()->user()->createToken('authToken')->accessToken;
+
+            return response(['user' => auth()->user(), 'token' => $token], 201);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $user_exists = User::where('email', $request->get('email'))->get()->count();
-
-        if ($user_exists !== 1) {
-            return response(['message' => 'No user match this email'], 404);
-        }
-
-        if (!auth()->attempt($request->all())) {
-            return response(['message' => 'Email or password incorrect'], 401);
-        }
-
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
-
-        return response(['user' => auth()->user(), 'token' => $accessToken], 201);
     }
 
     public function logout(Request $request) {
