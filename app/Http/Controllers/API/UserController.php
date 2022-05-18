@@ -91,12 +91,16 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $loginData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'email|required',
             'password' => 'required'
         ]);
 
-        if (!auth()->attempt($loginData)) {
+        if ($validator->fails()) {
+            return response(['errors' => $validator->messages()->get('*')], 400);
+        }
+
+        if (!auth()->attempt($request->all())) {
             return response(['message' => 'This User does not exist, check your details'], 400);
         }
 
