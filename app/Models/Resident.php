@@ -15,7 +15,7 @@ class Resident extends Model
      * @var array
      */
     protected $fillable = [
-        'photo_id',
+        'avatar',
         'name',
         'description',
         'link',

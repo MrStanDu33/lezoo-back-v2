@@ -18,6 +18,7 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
+        'media',
         'start_date',
         'end_date',
         'title',
