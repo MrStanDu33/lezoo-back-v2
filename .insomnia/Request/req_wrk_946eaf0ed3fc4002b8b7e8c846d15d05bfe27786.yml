@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05bfe27786
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05c5497bca
-modified: 1652005068688
+modified: 1652876699605
 created: 1652005068688
 url: "{{ base_url }}/api/events/{{ eventId }}"
 name: Update an event
@@ -20,9 +20,11 @@ parameters: []
 headers:
   - name: Content-Type
     value: application/json
+    id: pair_82b21960df1342c694bf98ac8d4b0726
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068688
 isPrivate: false

@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05296371b0
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05f1702b46
-modified: 1652005068681
+modified: 1652876702647
 created: 1652005068681
 url: "{{ base_url }}/api/messages/"
 name: Create a message
@@ -19,9 +19,11 @@ parameters: []
 headers:
   - name: Content-Type
     value: application/json
+    id: pair_c0bca92063ee4282ba329e0650cd241e
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068681
 isPrivate: false

@@ -1,10 +1,10 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05e2ae0d64
 type: Request
-parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05c5497bca
-modified: 1652005068673
+parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05f1702b46
+modified: 1652876707222
 created: 1652005068673
 url: "{{ base_url }}/api/messages/{{ messageId }}"
-name: Delete an event
+name: Delete a message
 description: ""
 method: DELETE
 body: {}
@@ -12,9 +12,10 @@ parameters: []
 headers: []
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
-metaSortKey: -1652005068673
+metaSortKey: -1652005068672.5
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

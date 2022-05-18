@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d051a6e4999
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d054c45e72e
-modified: 1652005069366
+modified: 1652876660104
 created: 1652005068726
 url: "{{ base_url }}/api/albums/"
 name: Create an album
@@ -20,7 +20,8 @@ headers:
     id: pair_f7d3bdae56a74026a496660cafdfe6d1
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068726
 isPrivate: false

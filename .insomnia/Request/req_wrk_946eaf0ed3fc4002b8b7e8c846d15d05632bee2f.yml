@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05632bee2f
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05c5497bca
-modified: 1652005068687
+modified: 1652876700225
 created: 1652005068687
 url: "{{ base_url }}/api/events/{{ eventId }}"
 name: Delete an event
@@ -12,7 +12,8 @@ parameters: []
 headers: []
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068687
 isPrivate: false

@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0523c8b9d2
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d0557f2b181
-modified: 1652005068618
+modified: 1652876752513
 created: 1652005068618
 url: "{{ base_url }}/api/users/logout"
 name: Log user out
@@ -12,7 +12,8 @@ parameters: []
 headers: []
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068618
 isPrivate: false

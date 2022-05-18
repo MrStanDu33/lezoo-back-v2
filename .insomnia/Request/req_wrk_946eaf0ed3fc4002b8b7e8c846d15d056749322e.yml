@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d056749322e
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d0552db564b
-modified: 1652005068647
+modified: 1652876731835
 created: 1652005068647
 url: "{{ base_url }}/api/styles/"
 name: Create a style
@@ -17,9 +17,11 @@ parameters: []
 headers:
   - name: Content-Type
     value: application/json
+    id: pair_5d949ef8efa344ddbcc220a5c025024b
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068647
 isPrivate: false

@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05cc2bda2c
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d054c45e72e
-modified: 1652005068710
+modified: 1652876657030
 created: 1652005068710
 url: "{{ base_url }}/api/albums/{{ albumId }}"
 name: Update an album
@@ -17,9 +17,11 @@ parameters: []
 headers:
   - name: Content-Type
     value: application/json
+    id: pair_a3ed513b1d1a4c86983cd6774c879f00
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068710
 isPrivate: false

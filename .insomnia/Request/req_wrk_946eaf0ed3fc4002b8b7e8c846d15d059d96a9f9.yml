@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d059d96a9f9
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d051528d87e
-modified: 1652005068705
+modified: 1652876664054
 created: 1652005068705
 url: "{{ base_url }}/api/artists/"
 name: Create an artist
@@ -20,9 +20,11 @@ parameters: []
 headers:
   - name: Content-Type
     value: application/json
+    id: pair_1d4ec525ba7b48ffb484aa6915054310
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068705
 isPrivate: false

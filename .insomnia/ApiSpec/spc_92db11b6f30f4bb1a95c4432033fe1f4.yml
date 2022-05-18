@@ -1,7 +1,7 @@
 _id: spc_92db11b6f30f4bb1a95c4432033fe1f4
 type: ApiSpec
 parentId: wrk_946eaf0ed3fc4002b8b7e8c846d15d05
-modified: 1652029314480
+modified: 1652874967889
 created: 1651045396147
 fileName: le-zoo-doc
 contents: >
@@ -1564,7 +1564,7 @@ contents: >
               },
               "delete": {
                   "summary": "Delete an event",
-                  "tags": ["Messages"],
+                  "tags": ["Events"],
                   "security": [
                       {
                           "bearerAuth": []
@@ -2946,6 +2946,22 @@ contents: >
                               }
                           }
                       },
+                      "409": {
+                          "description": "Conflict | Email already used",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "Email address already used."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
                       "500": {
                           "$ref": "#/components/responses/500"
                       }
@@ -3380,6 +3396,22 @@ contents: >
                               }
                           }
                       },
+                      "401": {
+                          "description": "Unauthorized | Not authenticated",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "You must be logged in to perform this action."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
                       "409": {
                           "description": "Conflict | Email already used",
                           "content": {
@@ -3472,7 +3504,7 @@ contents: >
                                       "properties": {
                                           "error": {
                                               "type": "string",
-                                              "example": "You must be logged in to perform this action."
+                                              "example": "Email or password incorrect"
                                           }
                                       }
                                   }

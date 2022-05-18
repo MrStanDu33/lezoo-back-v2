@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05e1087120
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d05f93771be
-modified: 1652005068683
+modified: 1652876711375
 created: 1652005068683
 url: "{{ base_url }}/api/medias/upload"
 name: Upload a media
@@ -13,7 +13,8 @@ parameters: []
 headers: []
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068683
 isPrivate: false

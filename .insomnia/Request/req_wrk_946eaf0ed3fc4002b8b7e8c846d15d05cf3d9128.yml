@@ -1,7 +1,7 @@
 _id: req_wrk_946eaf0ed3fc4002b8b7e8c846d15d05cf3d9128
 type: Request
 parentId: fld_wrk_946eaf0ed3fc4002b8b7e8c846d15d0598238947
-modified: 1652005068652
+modified: 1652876725762
 created: 1652005068652
 url: "{{ base_url }}/api/residents/{{ residentId }}"
 name: Update an resident
@@ -20,9 +20,11 @@ parameters: []
 headers:
   - name: Content-Type
     value: application/json
+    id: pair_1624c9703ba54dd6b56ea08272a320ac
 authentication:
   type: bearer
-  token: "{{bearerToken}}"
+  token: "{% response 'body', 'req_wrk_946eaf0ed3fc4002b8b7e8c846d15d0516e55ff7',
+    'b64::JC50b2tlbg==::46b', 'when-expired', 3600 %}"
   prefix: ""
 metaSortKey: -1652005068652
 isPrivate: false
