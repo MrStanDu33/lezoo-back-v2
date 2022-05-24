@@ -31,15 +31,21 @@ class UserController extends Controller
      */
     public function find_all()
     {
-        $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
-        $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
+        try {
+            $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+            $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
 
-        $start_id = $range * $page;
-        $end_id = $start_id + $range + 1;
+            $start_id = $range * $page;
+            $end_id = $start_id + $range + 1;
 
-        $users = (is_null($page) || is_null($range)) ? User::all() : User::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
+            $users = (is_null($page) || is_null($range))
+                ? User::all()
+                : User::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
 
-        return response([ 'users' => UserResource::collection($users), 'message' => 'Retrieved successfully'], 200);
+            return response([ 'users' => UserResource::collection($users)], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -68,8 +74,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:55',
@@ -110,8 +115,7 @@ class UserController extends Controller
         }
     }
 
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
                 'email' => 'email|required',
