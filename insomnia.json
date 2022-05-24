@@ -25,10 +25,6 @@
             "description": "Events routes"
         },
         {
-            "name": "Medias",
-            "description": "Medias routes"
-        },
-        {
             "name": "Messages",
             "description": "Messages routes"
         },
@@ -391,7 +387,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ArtistCreation"
+                                "$ref": "#/components/schemas/ArtistCreationJson"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ArtistCreationFormData"
                             }
                         }
                     }
@@ -602,7 +603,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ArtistCreation"
+                                "$ref": "#/components/schemas/ArtistCreationJson"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ArtistCreationFormData"
                             }
                         }
                     }
@@ -823,7 +829,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/EventCreation"
+                                "$ref": "#/components/schemas/EventCreationJson"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EventCreationFormData"
                             }
                         }
                     }
@@ -1005,7 +1016,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/EventCreation"
+                                "$ref": "#/components/schemas/EventCreationJson"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EventCreationFormData"
                             }
                         }
                     }
@@ -1187,79 +1203,6 @@
                                         "count": {
                                             "type": "integer",
                                             "format": "int64"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/500"
-                    }
-                }
-            }
-        },
-
-        "/api/medias/upload": {
-            "post": {
-                "summary": "Upload a media",
-                "tags": ["Medias"],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MediaCreation"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created | Media created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "media": {
-                                            "$ref": "#/components/schemas/MediaStructureFull"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request | Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Field image must be a media."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized | Not authenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "example": "You must be logged in to perform this action."
                                         }
                                     }
                                 }
@@ -1656,7 +1599,7 @@
                 ],
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "$ref": "#/components/schemas/PhotoCreation"
                             }
@@ -2117,7 +2060,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ResidentCreation"
+                                "$ref": "#/components/schemas/ResidentCreationJson"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResidentCreationFormData"
                             }
                         }
                     }
@@ -2315,7 +2263,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ResidentCreation"
+                                "$ref": "#/components/schemas/ResidentCreationJson"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResidentCreationFormData"
                             }
                         }
                     }
@@ -3781,12 +3734,27 @@
                     }
                 }
             },
-            "ArtistCreation": {
+            "ArtistCreationJson": {
                 "type": "object",
                 "properties": {
-                    "photo_id": {
-                        "type": "integer",
-                        "format": "int64"
+                    "name": {
+                        "type": "string"
+                    },
+                    "social_link": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ArtistCreationFormData": {
+                "type": "object",
+                "properties": {
+                    "avatar": {
+                        "type": "string",
+                        "format": "binary"
                     },
                     "name": {
                         "type": "string"
@@ -3800,7 +3768,7 @@
                     }
                 }
             },
-            "EventCreation": {
+            "EventCreationJson": {
                 "type": "object",
                 "properties": {
                     "start_date": {
@@ -3819,12 +3787,26 @@
                     }
                 }
             },
-            "MediaCreation": {
+            "EventCreationFormData": {
                 "type": "object",
                 "properties": {
-                    "url": {
+                    "media": {
                         "type": "string",
-                        "format": "url"
+                        "format": "binary"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "datetime"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "datetime"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
                     }
                 }
             },
@@ -3845,21 +3827,36 @@
             "PhotoCreation": {
                 "type": "object",
                 "properties": {
-                    "url": {
+                    "photo": {
                         "type": "string",
-                        "format": "url"
+                        "format": "binary"
                     },
                     "alt": {
                         "type": "string"
                     }
                 }
             },
-            "ResidentCreation": {
+            "ResidentCreationJson": {
                 "type": "object",
                 "properties": {
-                    "photo_id": {
-                        "type": "integer",
-                        "format": "int64"
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string",
+                        "format": "url"
+                    }
+                }
+            },
+            "ResidentCreationFormData": {
+                "type": "object",
+                "properties": {
+                    "avatar": {
+                        "type": "string",
+                        "format": "binary"
                     },
                     "name": {
                         "type": "string"
@@ -3937,9 +3934,9 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "photo_id": {
-                        "type": "integer",
-                        "format": "int64"
+                    "avatar": {
+                        "type": "string",
+                        "format": "url"
                     },
                     "name": {
                         "type": "string"
@@ -3968,6 +3965,10 @@
                         "type": "integer",
                         "format": "int64"
                     },
+                    "media": {
+                        "type": "string",
+                        "format": "url"
+                    },
                     "start_date": {
                         "type": "string",
                         "format": "datetime"
@@ -3989,15 +3990,6 @@
                     "updated_at": {
                         "type": "string",
                         "format": "datetime"
-                    }
-                }
-            },
-            "MediaStructure": {
-                "type": "object",
-                "properties": {
-                    "file": {
-                        "type": "string",
-                        "format": "binary"
                     }
                 }
             },
@@ -4058,9 +4050,9 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "photo_id": {
-                        "type": "integer",
-                        "format": "int64"
+                    "avatar": {
+                        "type": "string",
+                        "format": "url"
                     },
                     "name": {
                         "type": "string"
@@ -4163,12 +4155,9 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "photo_id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "photo": {
-                        "$ref": "#/components/schemas/PhotoStructure"
+                    "avatar": {
+                        "type": "string",
+                        "format": "url"
                     },
                     "name": {
                         "type": "string"
@@ -4203,6 +4192,10 @@
                         "type": "integer",
                         "format": "int64"
                     },
+                    "media": {
+                        "type": "string",
+                        "format": "url"
+                    },
                     "start_date": {
                         "type": "string",
                         "format": "datetime"
@@ -4236,15 +4229,6 @@
                     "updated_at": {
                         "type": "string",
                         "format": "datetime"
-                    }
-                }
-            },
-            "MediaStructureFull": {
-                "type": "object",
-                "properties": {
-                    "url": {
-                        "type": "string",
-                        "format": "url"
                     }
                 }
             },
@@ -4329,12 +4313,9 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "photo_id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "photo": {
-                        "$ref": "#/components/schemas/PhotoStructure"
+                    "avatar": {
+                        "type": "string",
+                        "format": "url"
                     },
                     "name": {
                         "type": "string"
