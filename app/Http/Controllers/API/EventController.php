@@ -17,7 +17,21 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function count() {
-        return Event::all()->count();
+        try {
+            $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+            $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
+
+            $start_id = $range * $page;
+            $end_id = $start_id + $range + 1;
+
+            $events = (is_null($page) || is_null($range))
+                ? Event::all()
+                : Event::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
+
+            return response([ 'events' => EventResource::collection($events)], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
