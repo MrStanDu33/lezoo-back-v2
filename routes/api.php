@@ -119,6 +119,7 @@ Route::prefix('users')->group(function () {
     Route::post('/reset', [UserController::class, 'reset_password']);
 
     Route::middleware(['json.response', 'auth:api'])->group(function () {
+        Route::get('/me', [UserController::class, 'me']);
         Route::post('/', [UserController::class, 'create']);
         Route::get('/', [UserController::class, 'find_all']);
         Route::get('/{user}', [UserController::class, 'find_one']);
@@ -126,10 +127,6 @@ Route::prefix('users')->group(function () {
         Route::delete('/{user}', [UserController::class, 'delete']);
         Route::get('/count', [UserController::class, 'count']);
         Route::post('/logout', [UserController::class, 'logout']);
-        Route::get('/me', function (Request $request) {
-            // file deepcode ignore XSS: temp
-            return $request->user();
-        });
     });
 
     Route::post('/login', [UserController::class, 'login']);

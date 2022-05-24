@@ -277,4 +277,27 @@ class UserController extends Controller
             200
         );
     }
+
+    /**
+     * Find my user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function me (Request $request) {
+        try {
+            $user_id = $request->user()->id;
+
+            $user = User::where('id', $user_id)->first();
+
+            if ($user === null) {
+                return response(['error' => 'User not found.'], 404);
+            }
+
+            return ['user' => $user];
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
+    }
 }
