@@ -66,27 +66,45 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
-        $validated_data = $request->validate([
-            'name' => 'required|max:55',
-            'email' => 'email|required|unique:users',
-            'password' => 'required'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:55',
+                'email' => 'email|required',
+                'password' => 'required',
+            ]);
 
-        $validated_data['password'] = Hash::make($request->password);
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
 
-        $user = User::create($validated_data);
+            $user_exists = User::where('email', $request->get('email'))->get()->count();
 
-        auth()->attempt([
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
+            if ($user_exists !== 0) {
+                return response(['message' => 'Email address already used.'], 409);
+            }
 
-        $access_token = auth()->user()->createToken('authToken')->accessToken;
+            $hashed_password = Hash::make($request->get('password'));
 
-        return response([
-            'token' => $access_token,
-            'user' => $user,
-        ], 201);
+            $user = User::create([
+                ...$request->all(),
+                'password' => $hashed_password,
+            ]);
+
+            auth()->attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+            ]);
+
+            $access_token = auth()->user()->createToken('authToken')->accessToken;
+
+            return response([
+                'token' => $access_token,
+                'user' => $user,
+            ], 201);
+        } catch (\Exception $e) {
+            dd($e);
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     public function login(Request $request)
