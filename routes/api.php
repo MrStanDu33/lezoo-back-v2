@@ -120,13 +120,13 @@ Route::prefix('users')->group(function () {
 
     Route::middleware(['json.response', 'auth:api'])->group(function () {
         Route::get('/me', [UserController::class, 'me']);
+        Route::get('/count', [UserController::class, 'count']);
+        Route::post('/logout', [UserController::class, 'logout']);
         Route::post('/', [UserController::class, 'create']);
         Route::get('/', [UserController::class, 'find_all']);
         Route::get('/{user}', [UserController::class, 'find_one']);
         Route::put('/{user}', [UserController::class, 'update']);
         Route::delete('/{user}', [UserController::class, 'delete']);
-        Route::get('/count', [UserController::class, 'count']);
-        Route::post('/logout', [UserController::class, 'logout']);
     });
 
     Route::post('/login', [UserController::class, 'login']);
