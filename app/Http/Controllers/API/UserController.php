@@ -17,7 +17,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function count() {
-        return User::all()->count();
+        try {
+            return response(['count' => User::all()->count()], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -102,7 +106,6 @@ class UserController extends Controller
                 'user' => $user,
             ], 201);
         } catch (\Exception $e) {
-            dd($e);
             return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
     }
