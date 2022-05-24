@@ -138,7 +138,11 @@ class UserController extends Controller
     }
 
     public function logout(Request $request) {
-        $request->user()->token()->revoke();
+        try {
+            $request->user()->token()->revoke();
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
