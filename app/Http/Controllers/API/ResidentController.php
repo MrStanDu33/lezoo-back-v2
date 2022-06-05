@@ -91,7 +91,11 @@ class ResidentController extends Controller
      */
     public function show(Resident $resident)
     {
-        return response(['resident' => new ResidentResource($resident), 'message' => 'Retrieved successfully'], 200);
+        try {
+            return response(['resident' => new ResidentResource($resident), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
