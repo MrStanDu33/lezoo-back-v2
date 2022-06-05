@@ -117,23 +117,45 @@ class ResidentController extends Controller
      * @param  \App\Models\Resident  $resident
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Resident $resident)
+    public function update(Request $request, $resident_id)
     {
-        $data = $request->all();
+        try {
+            $resident = Resident::find($resident_id);
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'link' => 'nullable|url|max:255',
-        ]);
+            if ($resident === null) {
+                return response(['message' => 'Resident not found'], 404);
+            }
+            $data = $request->all();
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            $validator = Validator::make($data, [
+                'avatar' => 'nullable|file|mimes:jpg,bmp,png',
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'link' => 'nullable|url|max:255',
+            ]);
+
+            if ($request->file('avatar')) {
+                $uploadedFile = $request->file('avatar');
+                $ext = $uploadedFile->extension();
+
+                $filename = str_replace('.'.$ext, '', $uploadedFile->getClientOriginalName());
+                $date = date('Y-m-d_H-i-s');
+                $completeFilename = "{$date}_{$filename}.{$ext}";
+
+                $test = $uploadedFile->storeAs('/uploadedFiles', $completeFilename, ['disk' => 'public']);
+                $data['avatar'] = "{$request->getSchemeAndHttpHost()}/storage/uploadedFiles/{$completeFilename}";
+            }
+
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $resident->update($data);
+
+            return response(['resident' => new ResidentResource($resident), 'message' => 'Update successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $resident->update($data);
-
-        return response(['resident' => new ResidentResource($resident), 'message' => 'Update successfully'], 200);
     }
 
     /**
