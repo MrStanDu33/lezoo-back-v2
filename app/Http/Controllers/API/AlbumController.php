@@ -30,15 +30,21 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
-        $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
+        try {
+            $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+            $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
 
-        $start_id = $range * $page;
-        $end_id = $start_id + $range + 1;
+            $start_id = $range * $page;
+            $end_id = $start_id + $range + 1;
 
-        $albums = (is_null($page) || is_null($range)) ? Album::all() : Album::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
+            $albums = (is_null($page) || is_null($range))
+                ? Album::all()
+                : Album::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
 
-        return response([ 'albums' => AlbumResource::collection($albums), 'message' => 'Retrieved successfully'], 200);
+            return response([ 'albums' => AlbumResource::collection($albums), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -49,19 +55,23 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-        ]);
+            $validator = Validator::make($data, [
+                'name' => 'required|string|max:255',
+            ]);
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $album = Album::create([...$data, "user_id" => $request->user()->id]);
+
+            return response(['album' => new AlbumResource($album), 'message' => 'Created successfully'], 201);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $album = Album::create($data);
-
-        return response(['album' => new AlbumResource($album), 'message' => 'Created successfully'], 201);
     }
 
     /**
@@ -70,9 +80,19 @@ class AlbumController extends Controller
      * @param  \App\Models\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function show(Album $album)
+    public function show($album_id)
     {
-        return response(['album' => new AlbumResource($album), 'message' => 'Retrieved successfully'], 200);
+        try {
+            $album = Album::find($album_id);
+
+            if ($album === null) {
+                return response(['message' => 'Album not found'], 404);
+            }
+
+            return response(['album' => new AlbumResource($album), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -82,21 +102,30 @@ class AlbumController extends Controller
      * @param  \App\Models\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Album $album)
+    public function update(Request $request, $album_id)
     {
-        $data = $request->all();
+        try {
+            $album = Album::find($album_id);
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-        ]);
+            if ($album === null) {
+                return response(['message' => 'Album not found'], 404);
+            }
+            $data = $request->all();
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            $validator = Validator::make($data, [
+                'name' => 'required|string|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $album->update([...$data, "user_id" => $request->user()->id]);
+
+            return response(['album' => new AlbumResource($album), 'message' => 'Update successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $album->update($data);
-
-        return response(['album' => new AlbumResource($album), 'message' => 'Update successfully'], 200);
     }
 
     /**
@@ -105,10 +134,19 @@ class AlbumController extends Controller
      * @param  \App\Models\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Album $album)
+    public function destroy($album_id)
     {
-        $album->delete();
+        try {
+            $album = Album::find($album_id);
 
-        return response(['message' => 'Deleted']);
+            if ($album === null) {
+                return response(['message' => 'Album not found'], 404);
+            }
+            $album->delete();
+
+            return response(['album' => $album]);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 }
