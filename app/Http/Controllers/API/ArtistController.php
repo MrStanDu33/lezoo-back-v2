@@ -61,8 +61,8 @@ class ArtistController extends Controller
             $validator = Validator::make($data, [
                 'avatar' => 'nullable|file|mimes:jpg,bmp,png',
                 'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'link' => 'nullable|url|max:255',
+                'social_link' => 'nullable|url|string',
+                'label' => 'nullable|max:255',
             ]);
 
             if ($validator->fails()) {
@@ -129,9 +129,9 @@ class ArtistController extends Controller
 
             $validator = Validator::make($data, [
                 'avatar' => 'nullable|file|mimes:jpg,bmp,png',
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'link' => 'nullable|url|max:255',
+                'name' => 'string|max:255',
+                'social_link' => 'nullable|url|string',
+                'label' => 'nullable|max:255',
             ]);
 
             if ($validator->fails()) {
