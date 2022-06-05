@@ -3,6 +3,11 @@
     "info": {
         "title": "Le ZOO - API",
         "description": "API used to manage Le ZOO website",
+        "contact": {
+            "name": "DANIELS-ROTH Stan",
+            "url": "https://daniels-roth-stan.fr",
+            "email": "contact@daniels-roth-stan.fr"
+        },
         "version": "1.0.0"
     },
     "servers": [
@@ -3773,11 +3778,11 @@
                 "properties": {
                     "start_date": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "end_date": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "title": {
                         "type": "string"
@@ -3796,11 +3801,11 @@
                     },
                     "start_date": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "end_date": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "title": {
                         "type": "string"
@@ -3919,11 +3924,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -3950,11 +3955,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -3971,11 +3976,11 @@
                     },
                     "start_date": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "end_date": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "title": {
                         "type": "string"
@@ -3985,11 +3990,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4011,11 +4016,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4035,11 +4040,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4066,11 +4071,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4086,11 +4091,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4114,11 +4119,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4140,11 +4145,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4177,11 +4182,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4198,11 +4203,11 @@
                     },
                     "start_date": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "end_date": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "title": {
                         "type": "string"
@@ -4224,11 +4229,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4250,11 +4255,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4298,11 +4303,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4329,11 +4334,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4355,11 +4360,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             },
@@ -4383,11 +4388,11 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "datetime"
+                        "format": "date-time"
                     }
                 }
             }
