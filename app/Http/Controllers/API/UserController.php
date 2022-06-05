@@ -174,8 +174,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function find_one($user_id)
-    {
+    public function find_one($user_id) {
         try {
             $user = User::find($user_id);
 
@@ -196,23 +195,36 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
-    {
-        $data = $request->all();
+    public function update(Request $request, $user_id) {
+        try {
+            $user = User::find($user_id);
 
-        $validator = Validator::make($data, [
-            'name' => 'required|max:55',
-            'email' => 'email|required|unique:users',
-            'password' => 'required|confirmed'
-        ]);
+            if ($user === null) {
+                return response(['message' => 'User not found'], 404);
+            }
+            $data = $request->all();
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            $validator = Validator::make($data, [
+                'name' => 'max:55',
+                'email' => 'email',
+            ]);
+
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $users_with_asked_email = User::where('email', $request->get('email'))->get()->count();
+
+            if ($users_with_asked_email !== 0) {
+                return response(['message' => 'Email address already used.'], 409);
+            }
+
+            $user->update($data);
+
+            return response(['user' => new UserResource($user), 'message' => 'Update successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $user->update($data);
-
-        return response(['user' => new UserResource($user), 'message' => 'Update successfully'], 200);
     }
 
     /**

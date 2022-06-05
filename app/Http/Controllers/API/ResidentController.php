@@ -134,6 +134,10 @@ class ResidentController extends Controller
                 'link' => 'nullable|url|max:255',
             ]);
 
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
             if ($request->file('avatar')) {
                 $uploadedFile = $request->file('avatar');
                 $ext = $uploadedFile->extension();
@@ -144,10 +148,6 @@ class ResidentController extends Controller
 
                 $test = $uploadedFile->storeAs('/uploadedFiles', $completeFilename, ['disk' => 'public']);
                 $data['avatar'] = "{$request->getSchemeAndHttpHost()}/storage/uploadedFiles/{$completeFilename}";
-            }
-
-            if ($validator->fails()) {
-                return response(['errors' => $validator->messages()->get('*')], 400);
             }
 
             $resident->update($data);
