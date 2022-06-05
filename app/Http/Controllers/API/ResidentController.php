@@ -150,7 +150,7 @@ class ResidentController extends Controller
                 $data['avatar'] = "{$request->getSchemeAndHttpHost()}/storage/uploadedFiles/{$completeFilename}";
             }
 
-            $resident->update($data);
+            $resident->update([...$data, "user_id" => $request->user()->id]);
 
             return response(['resident' => new ResidentResource($resident), 'message' => 'Update successfully'], 200);
         } catch (\Exception $e) {

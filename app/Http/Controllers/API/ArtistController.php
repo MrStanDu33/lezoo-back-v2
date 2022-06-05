@@ -30,15 +30,21 @@ class ArtistController extends Controller
      */
     public function index()
     {
-        $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
-        $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
+        try {
+            $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+            $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
 
-        $start_id = $range * $page;
-        $end_id = $start_id + $range + 1;
+            $start_id = $range * $page;
+            $end_id = $start_id + $range + 1;
 
-        $artists = (is_null($page) || is_null($range)) ? Artist::all() : Artist::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
+            $artists = (is_null($page) || is_null($range))
+                ? Artist::all()
+                : Artist::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
 
-        return response([ 'artists' => ArtistResource::collection($artists), 'message' => 'Retrieved successfully'], 200);
+            return response([ 'artists' => ArtistResource::collection($artists), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -49,22 +55,38 @@ class ArtistController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'photo_id' => 'nullable|exists:photos',
-            'name' => 'required|string|max:255',
-            'social_link' => 'nullable|url|max:255',
-            'label' => 'nullable|string|max:255',
-        ]);
+            $validator = Validator::make($data, [
+                'avatar' => 'nullable|file|mimes:jpg,bmp,png',
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'link' => 'nullable|url|max:255',
+            ]);
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            if ($request->file('avatar')) {
+                $uploadedFile = $request->file('avatar');
+                $ext = $uploadedFile->extension();
+
+                $filename = str_replace('.'.$ext, '', $uploadedFile->getClientOriginalName());
+                $date = date('Y-m-d_H-i-s');
+                $completeFilename = "{$date}_{$filename}.{$ext}";
+
+                $test = $uploadedFile->storeAs('/uploadedFiles', $completeFilename, ['disk' => 'public']);
+                $data['avatar'] = "{$request->getSchemeAndHttpHost()}/storage/uploadedFiles/{$completeFilename}";
+            }
+
+            $artist = Artist::create([...$data, "user_id" => $request->user()->id]);
+
+            return response(['artist' => new ArtistResource($artist), 'message' => 'Created successfully'], 201);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $artist = Artist::create($data);
-
-        return response(['artist' => new ArtistResource($artist), 'message' => 'Created successfully'], 201);
     }
 
     /**
@@ -73,9 +95,19 @@ class ArtistController extends Controller
      * @param  \App\Models\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function show(Artist $artist)
+    public function show($artist_id)
     {
-        return response(['artist' => new ArtistResource($artist), 'message' => 'Retrieved successfully'], 200);
+        try {
+            $artist = Artist::find($artist_id);
+
+            if ($artist === null) {
+                return response(['message' => 'Artist not found'], 404);
+            }
+
+            return response(['artist' => new ArtistResource($artist), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -85,23 +117,45 @@ class ArtistController extends Controller
      * @param  \App\Models\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Artist $artist)
+    public function update(Request $request, $artist_id)
     {
-        $data = $request->all();
+        try {
+            $artist = Artist::find($artist_id);
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'social_link' => 'nullable|url|max:255',
-            'label' => 'nullable|string|max:255',
-        ]);
+            if ($artist === null) {
+                return response(['message' => 'Artist not found'], 404);
+            }
+            $data = $request->all();
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            $validator = Validator::make($data, [
+                'avatar' => 'nullable|file|mimes:jpg,bmp,png',
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'link' => 'nullable|url|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            if ($request->file('avatar')) {
+                $uploadedFile = $request->file('avatar');
+                $ext = $uploadedFile->extension();
+
+                $filename = str_replace('.'.$ext, '', $uploadedFile->getClientOriginalName());
+                $date = date('Y-m-d_H-i-s');
+                $completeFilename = "{$date}_{$filename}.{$ext}";
+
+                $test = $uploadedFile->storeAs('/uploadedFiles', $completeFilename, ['disk' => 'public']);
+                $data['avatar'] = "{$request->getSchemeAndHttpHost()}/storage/uploadedFiles/{$completeFilename}";
+            }
+
+            $artist->update([...$data, "user_id" => $request->user()->id]);
+
+            return response(['artist' => new ArtistResource($artist), 'message' => 'Update successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $artist->update($data);
-
-        return response(['artist' => new ArtistResource($artist), 'message' => 'Update successfully'], 200);
     }
 
     /**
@@ -110,10 +164,19 @@ class ArtistController extends Controller
      * @param  \App\Models\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Artist $artist)
+    public function destroy($artist_id)
     {
-        $artist->delete();
+        try {
+            $artist = Artist::find($artist_id);
 
-        return response(['message' => 'Deleted']);
+            if ($artist === null) {
+                return response(['message' => 'Artist not found'], 404);
+            }
+            $artist->delete();
+
+            return response(['artist' => $artist]);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 }
