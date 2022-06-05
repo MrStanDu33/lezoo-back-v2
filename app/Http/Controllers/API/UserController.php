@@ -29,8 +29,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function find_all()
-    {
+    public function find_all() {
         try {
             $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
             $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
@@ -54,18 +53,35 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|max:55',
-            'email' => 'email|required|unique:users',
-            'password' => 'required'
-        ]);
-        $validatedData['password'] = Hash::make($request->password);
+    public function create(Request $request) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:55',
+                'email' => 'email|required',
+                'password' => 'required',
+            ]);
 
-        $user = User::create($validatedData);
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
 
-        return response(['user' => $user], 201);
+            $user_exists = User::where('email', $request->get('email'))->get()->count();
+
+            if ($user_exists !== 0) {
+                return response(['message' => 'Email address already used.'], 409);
+            }
+
+            $hashed_password = Hash::make($request->get('password'));
+
+            $user = User::create([
+                ...$request->all(),
+                'password' => $hashed_password,
+            ]);
+
+            return response(['user' => $user], 201);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
