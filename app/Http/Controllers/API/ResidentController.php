@@ -49,22 +49,38 @@ class ResidentController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'photo_id' => 'nullable|exists:photos',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'link' => 'nullable|url|max:255',
-        ]);
+            $validator = Validator::make($data, [
+                'avatar' => 'nullable|file|mimes:jpg,bmp,png',
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'link' => 'nullable|url|max:255',
+            ]);
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            if ($request->file('avatar')) {
+                $uploadedFile = $request->file('avatar');
+                $ext = $uploadedFile->extension();
+
+                $filename = str_replace('.'.$ext, '', $uploadedFile->getClientOriginalName());
+                $date = date('Y-m-d_H-i-s');
+                $completeFilename = "{$date}_{$filename}.{$ext}";
+
+                $test = $uploadedFile->storeAs('/uploadedFiles', $completeFilename, ['disk' => 'public']);
+                $data['avatar'] = "{$request->getSchemeAndHttpHost()}/storage/uploadedFiles/{$completeFilename}";
+            }
+
+            $resident = Resident::create([...$data, "user_id" => $request->user()->id]);
+
+            return response(['resident' => new ResidentResource($resident), 'message' => 'Created successfully'], 201);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $resident = Resident::create($data);
-
-        return response(['resident' => new ResidentResource($resident), 'message' => 'Created successfully'], 201);
     }
 
     /**

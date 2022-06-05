@@ -19,5 +19,6 @@ class Resident extends Model
         'name',
         'description',
         'link',
+        'user_id',
     ];
 }
