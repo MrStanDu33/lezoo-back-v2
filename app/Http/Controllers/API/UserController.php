@@ -174,9 +174,19 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function find_one(User $user)
+    public function find_one($user_id)
     {
-        return response(['user' => new UserResource($user), 'message' => 'Retrieved successfully'], 200);
+        try {
+            $user = User::find($user_id);
+
+            if ($user === null) {
+                return response(['message' => 'User not found'], 404);
+            }
+
+            return response(['user' => new UserResource($user), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
