@@ -233,8 +233,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function delete($user_id)
-    {
+    public function delete($user_id) {
         try {
             $user = User::find($user_id);
 

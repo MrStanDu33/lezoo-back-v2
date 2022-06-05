@@ -30,15 +30,21 @@ class StyleController extends Controller
      */
     public function index()
     {
-        $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
-        $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
+        try {
+            $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+            $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
 
-        $start_id = $range * $page;
-        $end_id = $start_id + $range + 1;
+            $start_id = $range * $page;
+            $end_id = $start_id + $range + 1;
 
-        $styles = (is_null($page) || is_null($range)) ? Style::all() : Style::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
+            $styles = (is_null($page) || is_null($range))
+                ? Style::all()
+                : Style::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
 
-        return response([ 'styles' => StyleResource::collection($styles), 'message' => 'Retrieved successfully'], 200);
+            return response([ 'styles' => StyleResource::collection($styles), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -49,19 +55,23 @@ class StyleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'title' => 'required|string|max:255',
-        ]);
+            $validator = Validator::make($data, [
+                'title' => 'required|string|max:255',
+            ]);
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $style = Style::create([...$data, "user_id" => $request->user()->id]);
+
+            return response(['style' => new StyleResource($style), 'message' => 'Created successfully'], 201);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $style = Style::create($data);
-
-        return response(['style' => new StyleResource($style), 'message' => 'Created successfully'], 201);
     }
 
     /**
@@ -70,9 +80,19 @@ class StyleController extends Controller
      * @param  \App\Models\Style  $style
      * @return \Illuminate\Http\Response
      */
-    public function show(Style $style)
+    public function show($style_id)
     {
-        return response(['style' => new StyleResource($style), 'message' => 'Retrieved successfully'], 200);
+        try {
+            $style = Style::find($style_id);
+
+            if ($style === null) {
+                return response(['message' => 'Style not found'], 404);
+            }
+
+            return response(['style' => new StyleResource($style), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -82,21 +102,30 @@ class StyleController extends Controller
      * @param  \App\Models\Style  $style
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Style $style)
+    public function update(Request $request, $style_id)
     {
-        $data = $request->all();
+        try {
+            $style = Style::find($style_id);
 
-        $validator = Validator::make($data, [
-            'title' => 'required|string|max:255',
-        ]);
+            if ($style === null) {
+                return response(['message' => 'Style not found'], 404);
+            }
+            $data = $request->all();
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            $validator = Validator::make($data, [
+                'title' => 'required|string|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $style->update([...$data, "user_id" => $request->user()->id]);
+
+            return response(['style' => new StyleResource($style), 'message' => 'Update successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $style->update($data);
-
-        return response(['style' => new StyleResource($style), 'message' => 'Update successfully'], 200);
     }
 
     /**
@@ -105,10 +134,19 @@ class StyleController extends Controller
      * @param  \App\Models\Style  $style
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Style $style)
+    public function destroy($style_id)
     {
-        $style->delete();
+        try {
+            $style = Style::find($style_id);
 
-        return response(['message' => 'Deleted']);
+            if ($style === null) {
+                return response(['message' => 'Style not found'], 404);
+            }
+            $style->delete();
+
+            return response(['style' => $style]);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 }
