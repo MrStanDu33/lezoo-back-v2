@@ -233,11 +233,20 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function delete(User $user)
+    public function delete($user_id)
     {
-        $user->delete();
+        try {
+            $user = User::find($user_id);
 
-        return response(['message' => 'Deleted']);
+            if ($user === null) {
+                return response(['message' => 'User not found'], 404);
+            }
+            $user->delete();
+
+            return response(['user' => $user]);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
