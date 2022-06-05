@@ -30,15 +30,21 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
-        $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
+        try {
+            $page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+            $range = filter_input(INPUT_GET, "range", FILTER_SANITIZE_NUMBER_INT);
 
-        $start_id = $range * $page;
-        $end_id = $start_id + $range + 1;
+            $start_id = $range * $page;
+            $end_id = $start_id + $range + 1;
 
-        $messages = (is_null($page) || is_null($range)) ? Message::all() : Message::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
+            $messages = (is_null($page) || is_null($range))
+                ? Message::all()
+                : Message::where('id', '>', $start_id)->where('id', '<', $end_id)->get();
 
-        return response([ 'messages' => MessageResource::collection($messages) ], 200);
+            return response([ 'messages' => MessageResource::collection($messages), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -49,27 +55,23 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:2048',
-            'active' => 'required|boolean',
-        ]);
+            $validator = Validator::make($data, [
+                'description' => 'required|string|max:255',
+            ]);
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $message = Message::create([...$data, "user_id" => $request->user()->id]);
+
+            return response(['message' => new MessageResource($message), 'message' => 'Created successfully'], 201);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $activeMessageExist = Message::where('active', true)->count();
-
-        if ($data->active === true && $activeMessageExist !== 0) {
-            return response(['error' => 'A message is already at active state'], 409);
-        }
-
-        $message = Message::create($data);
-
-        return response(['message' => new MessageResource($message)], 201);
     }
 
     /**
@@ -78,21 +80,19 @@ class MessageController extends Controller
      * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function show(Message $message)
+    public function show($message_id)
     {
-        return response(['message' => new MessageResource($message)], 200);
-    }
+        try {
+            $message = Message::find($message_id);
 
-    /**
-     * Display the current active message.
-     *
-     * @param  \App\Models\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function active()
-    {
-        $activeMessage = Message::where('active', true)->first();
-        return response(['message' => $activeMessage], 200);
+            if ($message === null) {
+                return response(['message' => 'Message not found'], 404);
+            }
+
+            return response(['message' => new MessageResource($message), 'message' => 'Retrieved successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 
     /**
@@ -102,29 +102,30 @@ class MessageController extends Controller
      * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, $message_id)
     {
-        $data = $request->all();
+        try {
+            $message = Message::find($message_id);
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:2048',
-            'active' => 'required|boolean',
-        ]);
+            if ($message === null) {
+                return response(['message' => 'Message not found'], 404);
+            }
+            $data = $request->all();
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            $validator = Validator::make($data, [
+                'description' => 'required|string|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return response(['errors' => $validator->messages()->get('*')], 400);
+            }
+
+            $message->update([...$data, "user_id" => $request->user()->id]);
+
+            return response(['message' => new MessageResource($message), 'message' => 'Update successfully'], 200);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
         }
-
-        $activeMessageExist = Message::where('active', true)->count();
-
-        if ($data->active === true && $activeMessageExist !== 0) {
-            return response(['error' => 'A message is already at active state'], 409);
-        }
-
-        $message->update($data);
-
-        return response(['message' => new MessageResource($message)], 200);
     }
 
     /**
@@ -133,10 +134,19 @@ class MessageController extends Controller
      * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Message $message)
+    public function destroy($message_id)
     {
-        $message->delete();
+        try {
+            $message = Message::find($message_id);
 
-        return response(['message' => 'Deleted']);
+            if ($message === null) {
+                return response(['message' => 'Message not found'], 404);
+            }
+            $message->delete();
+
+            return response(['message' => $message]);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 }
