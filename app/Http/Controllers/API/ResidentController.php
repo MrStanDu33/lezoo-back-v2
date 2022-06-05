@@ -164,10 +164,19 @@ class ResidentController extends Controller
      * @param  \App\Models\Resident  $resident
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Resident $resident)
+    public function destroy($resident_id)
     {
-        $resident->delete();
+        try {
+            $resident = Resident::find($resident_id);
 
-        return response(['message' => 'Deleted']);
+            if ($resident === null) {
+                return response(['message' => 'Resident not found'], 404);
+            }
+            $resident->delete();
+
+            return response(['resident' => $resident]);
+        } catch (\Exception $e) {
+            return response(['error' => $e ? $e : 'An error has occurred'], 500);
+        }
     }
 }
